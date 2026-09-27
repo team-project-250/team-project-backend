@@ -76,6 +76,7 @@ class BookingListCreateView(APIView):
 
     @extend_schema(
         summary="List a phone number's bookings",
+        description="Returns that phone number's bookings, newest first.",
         parameters=[
             OpenApiParameter(
                 "phone", str, required=True, description="Exact phone match."

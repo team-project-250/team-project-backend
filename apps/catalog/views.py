@@ -34,7 +34,11 @@ from apps.catalog.services import (
         description="Returns every active category, ordered for catalog navigation.",
         tags=["catalog"],
     ),
-    retrieve=extend_schema(summary="Get a single category", tags=["catalog"]),
+    retrieve=extend_schema(
+        summary="Get a single category",
+        description="Returns one active category by id.",
+        tags=["catalog"],
+    ),
 )
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     """Read-only ``GET /api/categories/``. Public, unauthenticated; only

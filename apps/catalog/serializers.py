@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
 from apps.catalog.models import (
@@ -144,6 +145,18 @@ class EquipmentDetailSerializer(serializers.ModelSerializer):
             "breadcrumbs",
         )
 
+    @extend_schema_field(
+        {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "label": {"type": "string"},
+                    "url": {"type": "string", "nullable": True},
+                },
+            },
+        }
+    )
     def get_breadcrumbs(self, obj: Equipment) -> list[dict]:
         """Build the breadcrumb trail for this equipment's product page.
 
