@@ -2,12 +2,18 @@ import datetime
 from decimal import Decimal
 
 import pytest
+from django.core.cache import cache
 from django.utils import timezone
 
 from apps.catalog.models import Category, Equipment
 from apps.locations.models import City
 
 pytestmark = pytest.mark.django_db
+
+
+@pytest.fixture(autouse=True)
+def _reset_throttle_cache():
+    cache.clear()
 
 
 def today_plus(days):
@@ -127,6 +133,24 @@ def test_create_booking_rejects_overlap(client, equipment, city):
         ).status_code
         == 409
     )
+
+
+def test_create_booking_is_throttled(client, equipment, city):
+    payload = {
+        "equipment": equipment.slug,
+        "city": city.slug,
+        "customer_name": "Іван",
+        "customer_phone": "+380501234567",
+        "customer_email": "ivan@example.com",
+        "start_date": today_plus(1),
+        "end_date": today_plus(2),
+        "delivery_method": "pickup",
+        "payment_method": "cash",
+    }
+    for _ in range(10):
+        client.post("/api/bookings/", payload, content_type="application/json")
+    response = client.post("/api/bookings/", payload, content_type="application/json")
+    assert response.status_code == 429
 
 
 def test_quote_endpoint(client, equipment):
