@@ -5,6 +5,9 @@ from apps.locations.models import City
 
 
 class Category(models.Model):
+    """A top-level equipment category (e.g. "Пилососи", "Пароочисники")
+    used for catalog navigation and the ``?category=`` filter."""
+
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True)
     order = models.PositiveSmallIntegerField(default=0)
@@ -16,10 +19,18 @@ class Category(models.Model):
         verbose_name_plural = "categories"
 
     def __str__(self):
+        """Return the category name, used in the Django admin list."""
         return self.name
 
 
 class Equipment(models.Model):
+    """A rentable piece of equipment: the core catalog/product-page entity.
+
+    Availability is never stored here — it's always computed on demand
+    from :class:`~apps.bookings.models.Booking` rows, see
+    ``apps.catalog.services.equipment_availability``.
+    """
+
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
     sku = models.CharField("SKU / article", max_length=50, unique=True)
@@ -46,10 +57,13 @@ class Equipment(models.Model):
         verbose_name_plural = "equipment"
 
     def __str__(self):
+        """Return the equipment name, used in the Django admin list."""
         return self.name
 
 
 class EquipmentImage(models.Model):
+    """One ordered photo in an :class:`Equipment`'s product-page gallery."""
+
     equipment = models.ForeignKey(
         Equipment, on_delete=models.CASCADE, related_name="images"
     )
@@ -60,10 +74,14 @@ class EquipmentImage(models.Model):
         ordering = ["order", "id"]
 
     def __str__(self):
+        """Return "<equipment name> — image <order>" for the admin list."""
         return f"{self.equipment.name} — image {self.order}"
 
 
 class EquipmentSpec(models.Model):
+    """One key/value technical specification row (e.g. "Потужність: 1400
+    Вт") shown in the product page's "Характеристики" tab."""
+
     equipment = models.ForeignKey(
         Equipment, on_delete=models.CASCADE, related_name="specs"
     )
@@ -75,10 +93,14 @@ class EquipmentSpec(models.Model):
         ordering = ["order", "id"]
 
     def __str__(self):
+        """Return "<label>: <value>" for the admin list."""
         return f"{self.label}: {self.value}"
 
 
 class EquipmentIncludedItem(models.Model):
+    """One line of an :class:`Equipment`'s "what's included" list
+    (e.g. a hose or an attachment that ships with the rental)."""
+
     equipment = models.ForeignKey(
         Equipment, on_delete=models.CASCADE, related_name="included_items"
     )
@@ -89,10 +111,14 @@ class EquipmentIncludedItem(models.Model):
         ordering = ["order", "id"]
 
     def __str__(self):
+        """Return the item name, used in the Django admin list."""
         return self.name
 
 
 class EquipmentBenefit(models.Model):
+    """A short bullet point shown next to the price (e.g. "Оригінальна
+    хімія та інструктаж у комплекті")."""
+
     equipment = models.ForeignKey(
         Equipment, on_delete=models.CASCADE, related_name="benefits"
     )
@@ -103,6 +129,7 @@ class EquipmentBenefit(models.Model):
         ordering = ["order", "id"]
 
     def __str__(self):
+        """Return the benefit text, used in the Django admin list."""
         return self.text
 
 
@@ -124,6 +151,7 @@ class EquipmentBadge(models.Model):
         ordering = ["order", "id"]
 
     def __str__(self):
+        """Return the badge label, used in the Django admin list."""
         return self.label
 
 
@@ -145,4 +173,5 @@ class EquipmentUseCase(models.Model):
         ordering = ["order", "id"]
 
     def __str__(self):
+        """Return the use-case text, used in the Django admin list."""
         return self.text
