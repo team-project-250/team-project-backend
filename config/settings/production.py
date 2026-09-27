@@ -8,6 +8,17 @@ DEBUG = False
 ALLOWED_HOSTS = env("ALLOWED_HOSTS")
 CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=[])
 
+# Nothing on this domain reads the CSRF cookie via JS (the frontend is a
+# separate origin calling the JSON API, not a page served by this app).
+CSRF_COOKIE_HTTPONLY = True
+
+# Don't serve the interactive HTML API browser in production — same
+# permissions apply either way, but it's needless surface for a JSON API.
+REST_FRAMEWORK = {
+    **REST_FRAMEWORK,
+    "DEFAULT_RENDERER_CLASSES": ["rest_framework.renderers.JSONRenderer"],
+}
+
 # Serve collected static files (incl. the admin) through WhiteNoise.
 MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")
 
