@@ -11,15 +11,27 @@ ukrainian_phone_validator = RegexValidator(
 
 
 class Booking(models.Model):
+    """A rental booking: dates, customer contact info, delivery/payment
+    choice and the price frozen at creation time (never recomputed from
+    live equipment prices, so a later price change doesn't alter past
+    bookings). No customer accounts — a booking is looked up later by
+    ``customer_phone`` (see ``apps.bookings.services.get_bookings_by_phone``)."""
+
     class DeliveryMethod(models.TextChoices):
+        """How the equipment reaches the customer."""
+
         PICKUP = "pickup", "Самовивіз"
         COURIER = "courier", "Кур'єрська доставка"
 
     class PaymentMethod(models.TextChoices):
+        """How the customer pays — always on pickup/delivery, never online."""
+
         CASH = "cash", "Готівка"
         TRANSFER = "transfer", "Безготівковий переказ"
 
     class Status(models.TextChoices):
+        """A booking's lifecycle state."""
+
         PENDING = "pending", "Очікує підтвердження"
         CONFIRMED = "confirmed", "Підтверджено"
         ACTIVE = "active", "Триває"
@@ -66,10 +78,16 @@ class Booking(models.Model):
         ordering = ["-created_at"]
 
     def __str__(self):
+        """Return the booking number (e.g. "ER-12345"), used in the admin."""
         return self.number
 
 
 class CallbackRequest(models.Model):
+    """A "1-click booking" lead: just a phone number (+ optional equipment
+    and dates) for a manager to call back — not a real reservation. Kept
+    deliberately lighter-weight than :class:`Booking`; see the Card-page
+    summary for why this model was reused instead of a new one."""
+
     equipment = models.ForeignKey(
         Equipment,
         on_delete=models.SET_NULL,
@@ -88,5 +106,6 @@ class CallbackRequest(models.Model):
         ordering = ["-created_at"]
 
     def __str__(self):
+        """Return "<phone> (нова|оброблено)", used in the Django admin list."""
         status = "оброблено" if self.is_processed else "нова"
         return f"{self.phone} ({status})"

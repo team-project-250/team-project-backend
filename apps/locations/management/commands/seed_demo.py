@@ -40,9 +40,18 @@ DEMO_BOOKING_LENGTH_DAYS = 20
 
 
 class Command(BaseCommand):
+    """``manage.py seed_demo`` — loads every app's demo fixture plus one
+    demo booking, so a fresh database has realistic data to browse."""
+
     help = "Load demo/seed data (fixtures) for local development."
 
     def handle(self, *args, **options):
+        """Load every fixture in :data:`FIXTURES`, then seed a demo booking.
+
+        Args:
+            *args: Unused; required by :class:`BaseCommand`'s signature.
+            **options: Unused; required by :class:`BaseCommand`'s signature.
+        """
         for fixture in FIXTURES:
             self.stdout.write(f"Loading fixture: {fixture}")
             call_command("loaddata", fixture)

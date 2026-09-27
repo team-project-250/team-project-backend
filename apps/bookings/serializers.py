@@ -13,6 +13,11 @@ from apps.locations.models import City
 
 
 class BookingSerializer(serializers.ModelSerializer):
+    """Read-only representation of a :class:`~apps.bookings.models.Booking`,
+    used for both the create response and the "my bookings" lookup list.
+    Deliberately excludes contact info (name/phone/email) from the
+    response body."""
+
     equipment_name = serializers.CharField(source="equipment.name", read_only=True)
 
     class Meta:
@@ -36,6 +41,14 @@ class BookingSerializer(serializers.ModelSerializer):
 
 
 class BookingCreateSerializer(serializers.Serializer):
+    """Validates and creates a new booking for ``POST /api/bookings/``.
+
+    A plain ``Serializer`` (not a ``ModelSerializer``) because the actual
+    creation, pricing and availability logic lives in
+    ``apps.bookings.services.create_booking`` — this only handles input
+    shape/format validation.
+    """
+
     equipment = serializers.SlugRelatedField(
         slug_field="slug", queryset=Equipment.objects.filter(is_active=True)
     )
@@ -57,6 +70,18 @@ class BookingCreateSerializer(serializers.Serializer):
     comment = serializers.CharField(required=False, allow_blank=True, default="")
 
     def validate(self, attrs):
+        """Require `delivery_address` when `delivery_method` is courier.
+
+        Args:
+            attrs: The already field-validated input data.
+
+        Returns:
+            `attrs`, unchanged.
+
+        Raises:
+            rest_framework.exceptions.ValidationError: If courier delivery
+                was chosen without an address.
+        """
         if attrs["delivery_method"] == Booking.DeliveryMethod.COURIER and not attrs.get(
             "delivery_address"
         ):
@@ -66,6 +91,21 @@ class BookingCreateSerializer(serializers.Serializer):
         return attrs
 
     def create(self, validated_data):
+        """Delegate to ``services.create_booking``.
+
+        Args:
+            validated_data: The validated input data.
+
+        Returns:
+            The newly created :class:`~apps.bookings.models.Booking`.
+
+        Raises:
+            EquipmentNotAvailableError: Re-raised as-is (not wrapped in a
+                ``ValidationError``) so the view can map it to `409`
+                instead of `400`.
+            rest_framework.exceptions.ValidationError: Wraps any other
+                :class:`~apps.bookings.services.BookingError`.
+        """
         try:
             return create_booking(**validated_data)
         except EquipmentNotAvailableError:
@@ -76,10 +116,23 @@ class BookingCreateSerializer(serializers.Serializer):
             raise serializers.ValidationError({"detail": str(exc)}) from exc
 
     def to_representation(self, instance):
+        """Render the created booking through :class:`BookingSerializer`.
+
+        Args:
+            instance: The :class:`~apps.bookings.models.Booking` created
+                by :meth:`create`.
+
+        Returns:
+            The serialized booking data (as a plain dict/OrderedDict).
+        """
         return BookingSerializer(instance).data
 
 
 class BookingQuoteSerializer(serializers.Serializer):
+    """Validates input for ``POST /api/bookings/quote/`` — a price preview
+    with no booking created and no availability check (only date format
+    and range are validated)."""
+
     equipment = serializers.SlugRelatedField(
         slug_field="slug", queryset=Equipment.objects.filter(is_active=True)
     )
@@ -88,8 +141,20 @@ class BookingQuoteSerializer(serializers.Serializer):
     delivery_method = serializers.ChoiceField(choices=Booking.DeliveryMethod.choices)
 
     def validate(self, attrs):
-        # Same date rules as a real booking — otherwise end < start yields a
-        # negative rental_days / total_price.
+        """Apply the same date rules a real booking would.
+
+        Args:
+            attrs: The already field-validated input data.
+
+        Returns:
+            `attrs`, unchanged.
+
+        Raises:
+            rest_framework.exceptions.ValidationError: If the date range
+                is invalid (end before start, or start in the past) —
+                otherwise `rental_days`/`total_price` could come out
+                negative.
+        """
         try:
             assert_dates_valid(attrs["start_date"], attrs["end_date"])
         except InvalidDateRangeError as exc:
@@ -111,6 +176,9 @@ class BookingQuoteResponseSerializer(serializers.Serializer):
 
 
 class CallbackRequestSerializer(serializers.ModelSerializer):
+    """Validates and represents a
+    :class:`~apps.bookings.models.CallbackRequest` ("1-click booking")."""
+
     equipment = serializers.SlugRelatedField(
         slug_field="slug",
         queryset=Equipment.objects.filter(is_active=True),
@@ -124,4 +192,7 @@ class CallbackRequestSerializer(serializers.ModelSerializer):
 
 
 class BookingCancelSerializer(serializers.Serializer):
+    """Validates the request body for ``POST /api/bookings/{number}/cancel/``
+    — just the phone number that must match the booking's `customer_phone`."""
+
     phone = serializers.CharField(max_length=20)

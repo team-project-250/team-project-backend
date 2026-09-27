@@ -7,6 +7,9 @@ from apps.bookings.models import Booking, CallbackRequest
 
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
+    """Django admin configuration for :class:`~apps.bookings.models.Booking`,
+    with the manual 10% Instagram-discount bulk action."""
+
     list_display = (
         "number",
         "equipment",
@@ -33,6 +36,18 @@ class BookingAdmin(admin.ModelAdmin):
     # model_format_dict(), so a literal "%" crashes the whole changelist.
     @admin.action(description="Apply 10%% Instagram discount")
     def apply_instagram_discount(self, request, queryset):
+        """Apply a manual 10% discount to the selected bookings.
+
+        Recomputes `discount_amount` and `total_price` from
+        `price_per_day` / `rental_days` / `delivery_fee` for each booking
+        in `queryset`. There's no automatic discount logic — this is the
+        only place a discount is ever applied, and only by staff.
+
+        Args:
+            request: The current admin ``HttpRequest`` (used to display
+                the confirmation message).
+            queryset: The bookings selected in the admin changelist.
+        """
         updated = 0
         for booking in queryset:
             subtotal = (
@@ -49,6 +64,10 @@ class BookingAdmin(admin.ModelAdmin):
 
 @admin.register(CallbackRequest)
 class CallbackRequestAdmin(admin.ModelAdmin):
+    """Django admin configuration for
+    :class:`~apps.bookings.models.CallbackRequest`, with a bulk action to
+    mark leads processed once a manager has followed up."""
+
     list_display = (
         "phone",
         "equipment",
@@ -63,5 +82,12 @@ class CallbackRequestAdmin(admin.ModelAdmin):
 
     @admin.action(description="Mark as processed")
     def mark_processed(self, request, queryset):
+        """Mark the selected callback requests ``is_processed=True`` in bulk.
+
+        Args:
+            request: The current admin ``HttpRequest`` (used to display
+                the confirmation message).
+            queryset: The callback requests selected in the admin changelist.
+        """
         updated = queryset.update(is_processed=True)
         self.message_user(request, f"{updated} заявок позначено обробленими.")
