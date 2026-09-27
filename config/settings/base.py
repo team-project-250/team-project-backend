@@ -142,6 +142,11 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 12,
+    # Public API — see the "no customer auth" decision in the roadmap.
+    # Declared explicitly so it can't be changed by accident by a later,
+    # unrelated DEFAULT_PERMISSION_CLASSES addition for some new feature.
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
+    "EXCEPTION_HANDLER": "config.exception_handler.custom_exception_handler",
     # Number of reverse proxies in front of the app. Throttles identify
     # clients by IP; with this unset DRF keys on the whole X-Forwarded-For
     # header, which a client can spoof to dodge every rate limit.
@@ -159,3 +164,35 @@ SPECTACULAR_SETTINGS = {
 # CORS
 
 CORS_ALLOWED_ORIGINS = env("CORS_ORIGINS")
+
+
+# Logging — everything to stdout/stderr; Render (and `docker compose logs`)
+# already capture that, so no file handler/rotation is needed here.
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{asctime} {levelname} {name} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": env("DJANGO_LOG_LEVEL", default="INFO"),
+    },
+    "loggers": {
+        "django.db.backends": {
+            # Would log every single SQL statement at DEBUG — too noisy
+            # even for local development.
+            "level": "WARNING",
+        },
+    },
+}

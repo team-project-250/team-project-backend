@@ -38,14 +38,23 @@ class BookingCancelThrottle(AnonRateThrottle):
     rate = "10/hour"
 
 
+class BookingCreateThrottle(AnonRateThrottle):
+    """Creating a booking blocks real availability for its dates without any
+    payment upfront (cash/transfer on pickup only) — with no accounts, an
+    unthrottled create would let anyone spam junk bookings and lock
+    equipment away from real customers."""
+
+    scope = "booking_create"
+    rate = "10/hour"
+
+
 class BookingListCreateView(APIView):
     permission_classes = [AllowAny]
 
     def get_throttles(self):
-        # Only the lookup is sensitive; creating a booking isn't throttled.
         if self.request.method == "GET":
             return [BookingLookupThrottle()]
-        return super().get_throttles()
+        return [BookingCreateThrottle()]
 
     def get(self, request):
         phone = request.query_params.get("phone")

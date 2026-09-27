@@ -34,8 +34,8 @@ This document covers **both** repositories — [`team-project-backend`](https://
 - [x] Define the core domain models (catalog first, then bookings) + migrations
 - [x] Register everything in the Django admin and add a catalog seed fixture
 - [x] Add a service layer (`apps/*/services.py`) between views and models
-- [ ] Structured logging and a DRF exception handler
-- [ ] Rate limiting across the public API (lookup, cancel and callback-request endpoints are throttled already)
+- [x] Structured logging and a DRF exception handler
+- [x] Rate limiting across the public API (lookup, cancel, callback-request and booking creation are throttled; `bookings/quote/` is read-only with no side effects, deliberately left unthrottled)
 
 **Frontend**
 
