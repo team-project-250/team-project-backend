@@ -27,14 +27,15 @@ This document covers **both** repositories — [`team-project-backend`](https://
 
 **Backend**
 
-- [ ] Project skeleton: `config/` with `settings/` split by environment (base / development / production)
-- [ ] Connect PostgreSQL via `django-environ` (`DATABASE_URL`), run the initial `migrate`
-- [ ] Wire up DRF, django-filter, CORS and drf-spectacular; root URLs (`/admin/`, `/api/`, schema)
-- [ ] Create the `apps/catalog` and `apps/bookings` applications
-- [ ] Define the core domain models (catalog first, then bookings) + migrations
-- [ ] Register everything in the Django admin and add a catalog seed fixture
-- [ ] Add a service layer (`apps/*/services.py`) between views and models
+- [x] Project skeleton: `config/` with `settings/` split by environment (base / development / production)
+- [x] Connect PostgreSQL via `django-environ` (`DATABASE_URL`), run the initial `migrate`
+- [x] Wire up DRF, django-filter, CORS and drf-spectacular; root URLs (`/admin/`, `/api/`, schema)
+- [x] Create the `apps/catalog` and `apps/bookings` applications
+- [x] Define the core domain models (catalog first, then bookings) + migrations
+- [x] Register everything in the Django admin and add a catalog seed fixture
+- [x] Add a service layer (`apps/*/services.py`) between views and models
 - [ ] Structured logging and a DRF exception handler
+- [ ] Rate limiting across the public API (lookup, cancel and callback-request endpoints are throttled already)
 
 **Frontend**
 
@@ -111,6 +112,7 @@ Feature backlog (equipment-rental service) — see [`docs/BACKEND_ROADMAP.md`](d
 
 - [ ] Backend deployed to [Render](https://render.com) via `render.yaml` (Gunicorn, `python manage.py migrate` on release)
 - [ ] Managed PostgreSQL instance provisioned and migrations applied
+- [ ] S3-compatible media bucket configured (`AWS_STORAGE_BUCKET_NAME` etc.) and `NUM_PROXIES` set for Render's proxy chain
 - [ ] Frontend deployed to [Vercel](https://vercel.com)
 - [ ] `VITE_API_URL` on the frontend points at the deployed backend
 - [ ] `CORS_ORIGINS` on the backend points at the deployed frontend

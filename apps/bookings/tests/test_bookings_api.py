@@ -2,6 +2,7 @@ import datetime
 from decimal import Decimal
 
 import pytest
+from django.utils import timezone
 
 from apps.catalog.models import Category, Equipment
 from apps.locations.models import City
@@ -10,7 +11,7 @@ pytestmark = pytest.mark.django_db
 
 
 def today_plus(days):
-    return (datetime.date.today() + datetime.timedelta(days=days)).isoformat()
+    return (timezone.localdate() + datetime.timedelta(days=days)).isoformat()
 
 
 @pytest.fixture
@@ -124,7 +125,7 @@ def test_create_booking_rejects_overlap(client, equipment, city):
         client.post(
             "/api/bookings/", payload, content_type="application/json"
         ).status_code
-        == 400
+        == 409
     )
 
 
@@ -142,3 +143,30 @@ def test_quote_endpoint(client, equipment):
     data = response.json()
     assert data["rental_days"] == 3
     assert data["delivery_fee"] == "100.00"
+
+
+def test_quote_rejects_end_before_start(client, equipment):
+    payload = {
+        "equipment": equipment.slug,
+        "start_date": today_plus(5),
+        "end_date": today_plus(2),
+        "delivery_method": "pickup",
+    }
+    response = client.post(
+        "/api/bookings/quote/", payload, content_type="application/json"
+    )
+    assert response.status_code == 400
+    assert "end_date" in response.json()
+
+
+def test_quote_rejects_past_start(client, equipment):
+    payload = {
+        "equipment": equipment.slug,
+        "start_date": today_plus(-2),
+        "end_date": today_plus(1),
+        "delivery_method": "pickup",
+    }
+    response = client.post(
+        "/api/bookings/quote/", payload, content_type="application/json"
+    )
+    assert response.status_code == 400

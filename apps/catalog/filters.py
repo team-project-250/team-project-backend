@@ -1,6 +1,5 @@
-from datetime import date
-
 import django_filters
+from django.utils import timezone
 
 from apps.bookings.models import Booking
 from apps.catalog.models import Equipment
@@ -31,7 +30,7 @@ class EquipmentFilter(django_filters.FilterSet):
         return queryset.filter(available_cities__slug__in=slugs).distinct()
 
     def filter_availability(self, queryset, name, value):
-        today = date.today()
+        today = timezone.localdate()
         booked_ids = Booking.objects.filter(
             status__in=Booking.ACTIVE_STATUSES,
             start_date__lte=today,

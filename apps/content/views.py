@@ -1,5 +1,4 @@
-from datetime import date
-
+from django.utils import timezone
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -93,7 +92,7 @@ class HomePageView(APIView):
             .select_related("category")
             .order_by("-rating")[:8]
         )
-        annotate_availability(popular_equipment, date.today())
+        annotate_availability(popular_equipment, timezone.localdate())
 
         data = {
             "hero": HeroSectionSerializer(HeroSection.load()).data,

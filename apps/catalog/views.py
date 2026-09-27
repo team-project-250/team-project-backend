@@ -1,6 +1,7 @@
 import calendar
 from datetime import date, timedelta
 
+from django.utils import timezone
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -57,7 +58,7 @@ class EquipmentViewSet(viewsets.ReadOnlyModelViewSet):
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
         target = list(page if page is not None else queryset)
-        annotate_availability(target, date.today())
+        annotate_availability(target, timezone.localdate())
         serializer = self.get_serializer(target, many=True)
         if page is not None:
             return self.get_paginated_response(serializer.data)
@@ -65,7 +66,7 @@ class EquipmentViewSet(viewsets.ReadOnlyModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
-        instance.availability = equipment_availability(instance, date.today())
+        instance.availability = equipment_availability(instance, timezone.localdate())
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
@@ -73,10 +74,13 @@ class EquipmentViewSet(viewsets.ReadOnlyModelViewSet):
     def availability(self, request, slug=None):
         equipment = self.get_object()
         month_param = request.query_params.get("month")
-        today = date.today()
+        today = timezone.localdate()
         if month_param:
             try:
                 year, month = (int(part) for part in month_param.split("-"))
+                # calendar.monthrange / date() would raise (-> 500) otherwise.
+                if not (1 <= month <= 12 and 1 <= year <= 9999):
+                    raise ValueError(month_param)
             except ValueError:
                 return Response(
                     {"month": ["Use YYYY-MM format."]},
@@ -124,6 +128,6 @@ class EquipmentViewSet(viewsets.ReadOnlyModelViewSet):
         limit = max(1, min(limit, 12))
 
         items = related_equipment(equipment, limit=limit)
-        annotate_availability(items, date.today())
+        annotate_availability(items, timezone.localdate())
         serializer = EquipmentListSerializer(items, many=True)
         return Response(serializer.data)

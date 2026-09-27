@@ -24,8 +24,28 @@ from apps.bookings.services import (
 )
 
 
+class BookingLookupThrottle(AnonRateThrottle):
+    """Customers have no accounts — a phone number (lookup) or phone +
+    booking number (cancel) is the only credential, so both endpoints are
+    rate-limited to make enumeration / brute force impractical."""
+
+    scope = "booking_lookup"
+    rate = "30/hour"
+
+
+class BookingCancelThrottle(AnonRateThrottle):
+    scope = "booking_cancel"
+    rate = "10/hour"
+
+
 class BookingListCreateView(APIView):
     permission_classes = [AllowAny]
+
+    def get_throttles(self):
+        # Only the lookup is sensitive; creating a booking isn't throttled.
+        if self.request.method == "GET":
+            return [BookingLookupThrottle()]
+        return super().get_throttles()
 
     def get(self, request):
         phone = request.query_params.get("phone")
@@ -40,7 +60,10 @@ class BookingListCreateView(APIView):
     def post(self, request):
         serializer = BookingCreateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        try:
+            serializer.save()
+        except EquipmentNotAvailableError as exc:
+            return Response({"detail": str(exc)}, status=status.HTTP_409_CONFLICT)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
@@ -62,6 +85,7 @@ class BookingQuoteView(APIView):
 
 class BookingCancelView(APIView):
     permission_classes = [AllowAny]
+    throttle_classes = [BookingCancelThrottle]
 
     def post(self, request, number):
         serializer = BookingCancelSerializer(data=request.data)

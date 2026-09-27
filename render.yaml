@@ -33,3 +33,15 @@ services:
         sync: false  # set to https://<the Render service host>
       - key: CORS_ORIGINS
         sync: false  # set to the deployed frontend URL
+      - key: AWS_STORAGE_BUCKET_NAME
+        sync: false  # S3-compatible bucket for uploaded media — see README
+      - key: AWS_ACCESS_KEY_ID
+        sync: false
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false
+      - key: AWS_S3_ENDPOINT_URL
+        sync: false  # only for non-AWS providers, e.g. Cloudflare R2
+      - key: AWS_S3_CUSTOM_DOMAIN
+        sync: false  # public host for media URLs (bucket public domain / CDN)
+      - key: NUM_PROXIES
+        sync: false  # proxies in front of gunicorn (X-Forwarded-For hops) — used by rate limiting

@@ -141,9 +141,9 @@ Generated automatically by drf-spectacular:
 | GET | `/api/equipment/{slug}/availability/?month=YYYY-MM` | Booked dates for that equipment in the given month (defaults to the current month) |
 | GET | `/api/equipment/{slug}/related/?limit=` | "Інша техніка" — same category first, then filled with other active equipment (excludes the item itself); `limit` defaults to 3, capped at 12 |
 | POST | `/api/bookings/quote/` | Price preview for equipment + dates + delivery method, no booking created |
-| POST | `/api/bookings/` | Create a booking — requires `customer_name`, `customer_phone` (`+380XXXXXXXXX`), `customer_email`, dates, delivery/payment method; server computes the price and checks availability |
-| GET | `/api/bookings/?phone=` | List that phone number's bookings, newest first (`phone` is required) |
-| POST | `/api/bookings/{number}/cancel/` | Cancel a booking — body `{"phone": "..."}` must match; only `pending`/`confirmed` bookings with a future start date can be cancelled |
+| POST | `/api/bookings/` | Create a booking — requires `customer_name`, `customer_phone` (`+380XXXXXXXXX`), `customer_email`, dates, delivery/payment method; server computes the price and checks availability. 400 for invalid input, 409 if the equipment is already booked for those dates |
+| GET | `/api/bookings/?phone=` | List that phone number's bookings, newest first (`phone` is required). Throttled to 30/hour per IP. |
+| POST | `/api/bookings/{number}/cancel/` | Cancel a booking — body `{"phone": "..."}` must match; only `pending`/`confirmed` bookings with a future start date can be cancelled. Throttled to 10/hour per IP. |
 | POST | `/api/callback-requests/` | "1-click" booking (a lead, not a reservation) — phone (`+380XXXXXXXXX`) + optional equipment/dates. 400 for bad phone/dates, 409 for a date conflict on the given equipment, 200 (not 201) if an identical unprocessed request already exists. Throttled to 5/hour per IP. |
 | GET | `/api/content/hero/` | Home page hero section (title, subtitle, CTA, background image) — editable in admin |
 | GET | `/api/content/about/` | "About EasyRent" section with its ordered feature list |
@@ -172,6 +172,8 @@ See [`docs/BACKEND_ROADMAP.md`](docs/BACKEND_ROADMAP.md) for the full planned AP
 | `DEBUG` | `True` | Debug mode — never `True` in production |
 | `DATABASE_URL` | `postgres://postgres:postgres@localhost:5432/easyrent` | PostgreSQL connection string |
 | `CORS_ORIGINS` | `http://localhost:5173` | Comma-separated list of allowed frontend origins |
+| `AWS_STORAGE_BUCKET_NAME` (+ `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, optional `AWS_S3_ENDPOINT_URL`, `AWS_S3_REGION_NAME`, `AWS_S3_CUSTOM_DOMAIN`) | `easyrent-media` | Production: S3-compatible bucket (AWS S3, Cloudflare R2, …) for uploaded images. Unset, uploads go to local disk, which Render wipes on every deploy |
+| `NUM_PROXIES` | `1` | Production: reverse proxies in front of the app. Rate limiting takes the client IP from `X-Forwarded-For` using this; unset, the limits can be bypassed by spoofing the header |
 
 All variables are documented in [`.env.example`](.env.example).
 

@@ -142,6 +142,10 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 12,
+    # Number of reverse proxies in front of the app. Throttles identify
+    # clients by IP; with this unset DRF keys on the whole X-Forwarded-For
+    # header, which a client can spoof to dodge every rate limit.
+    "NUM_PROXIES": env.int("NUM_PROXIES", default=None),
 }
 
 SPECTACULAR_SETTINGS = {

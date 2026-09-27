@@ -2,6 +2,8 @@ import datetime
 from decimal import Decimal
 
 import pytest
+from django.core.cache import cache
+from django.utils import timezone
 
 from apps.bookings.models import Booking
 from apps.bookings.services import create_booking
@@ -11,8 +13,13 @@ from apps.locations.models import City
 pytestmark = pytest.mark.django_db
 
 
+@pytest.fixture(autouse=True)
+def _reset_throttle_cache():
+    cache.clear()
+
+
 def today_plus(days):
-    return datetime.date.today() + datetime.timedelta(days=days)
+    return timezone.localdate() + datetime.timedelta(days=days)
 
 
 @pytest.fixture
@@ -103,7 +110,7 @@ def test_cancel_rejects_already_started(client, equipment, city):
         delivery_method=Booking.DeliveryMethod.PICKUP,
         payment_method=Booking.PaymentMethod.CASH,
     )
-    started.start_date = datetime.date.today()
+    started.start_date = timezone.localdate()
     started.save(update_fields=["start_date"])
 
     response = client.post(
@@ -124,3 +131,48 @@ def test_cancel_rejects_already_cancelled(client, booking):
         content_type="application/json",
     )
     assert response.status_code == 400
+
+
+def test_lookup_is_throttled(client):
+    for _ in range(30):
+        assert (
+            client.get("/api/bookings/", {"phone": "+380501234567"}).status_code == 200
+        )
+    response = client.get("/api/bookings/", {"phone": "+380501234567"})
+    assert response.status_code == 429
+
+
+def test_cancel_is_throttled(client, booking):
+    for _ in range(10):
+        client.post(
+            "/api/bookings/ER-00000/cancel/",
+            {"phone": booking.customer_phone},
+            content_type="application/json",
+        )
+    response = client.post(
+        f"/api/bookings/{booking.number}/cancel/",
+        {"phone": booking.customer_phone},
+        content_type="application/json",
+    )
+    assert response.status_code == 429
+
+
+def test_create_booking_is_not_throttled_by_lookup(client, equipment, city):
+    for _ in range(30):
+        client.get("/api/bookings/", {"phone": "+380501234567"})
+    response = client.post(
+        "/api/bookings/",
+        {
+            "equipment": equipment.slug,
+            "city": city.slug,
+            "customer_name": "Іван",
+            "customer_phone": "+380501234567",
+            "customer_email": "ivan@example.com",
+            "start_date": today_plus(20).isoformat(),
+            "end_date": today_plus(21).isoformat(),
+            "delivery_method": "pickup",
+            "payment_method": "cash",
+        },
+        content_type="application/json",
+    )
+    assert response.status_code == 201

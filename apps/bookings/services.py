@@ -12,13 +12,15 @@ import string
 from datetime import date, timedelta
 from decimal import Decimal
 
-from django.db import transaction
+from django.db import IntegrityError, transaction
 from django.utils import timezone
 
 from apps.bookings.models import Booking, CallbackRequest
 from apps.catalog.models import Equipment
 
 DELIVERY_FEE = Decimal("100.00")
+
+NUMBER_COLLISION_RETRIES = 3
 
 # How long a repeat "1-click" request for the same phone + equipment is
 # treated as a duplicate (double submit / accidental resend) rather than a
@@ -149,21 +151,33 @@ def create_booking(
         delivery_method=delivery_method,
     )
 
-    return Booking.objects.create(
-        number=generate_booking_number(),
-        equipment=equipment,
-        city=city,
-        customer_name=customer_name,
-        customer_phone=customer_phone,
-        customer_email=customer_email,
-        start_date=start_date,
-        end_date=end_date,
-        delivery_method=delivery_method,
-        delivery_address=delivery_address,
-        payment_method=payment_method,
-        comment=comment,
+    fields = {
+        "equipment": equipment,
+        "city": city,
+        "customer_name": customer_name,
+        "customer_phone": customer_phone,
+        "customer_email": customer_email,
+        "start_date": start_date,
+        "end_date": end_date,
+        "delivery_method": delivery_method,
+        "delivery_address": delivery_address,
+        "payment_method": payment_method,
+        "comment": comment,
         **pricing,
-    )
+    }
+    # generate_booking_number() checks for uniqueness, but a concurrent
+    # booking for OTHER equipment (not covered by the row lock above) can
+    # still grab the same number in between — retry instead of a 500.
+    for attempt in range(NUMBER_COLLISION_RETRIES):
+        try:
+            with transaction.atomic():
+                return Booking.objects.create(
+                    number=generate_booking_number(), **fields
+                )
+        except IntegrityError:
+            if attempt == NUMBER_COLLISION_RETRIES - 1:
+                raise
+    raise AssertionError("unreachable")
 
 
 class BookingNotFoundError(BookingError):
