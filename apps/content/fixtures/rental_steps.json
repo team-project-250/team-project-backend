@@ -1,0 +1,46 @@
+[
+  {
+    "model": "content.rentalstep",
+    "pk": 1,
+    "fields": {
+      "order": 1,
+      "icon": "select-equipment",
+      "title": "Оберіть техніку",
+      "description": "Під квартиру, приватний будинок, авто або комерційне приміщення. Ми підкажемо потрібну комплектацію.",
+      "is_active": true
+    }
+  },
+  {
+    "model": "content.rentalstep",
+    "pk": 2,
+    "fields": {
+      "order": 2,
+      "icon": "select-date",
+      "title": "Оберіть дату",
+      "description": "Перевірте вільні дати у живому календарі та вкажіть потрібну тривалість оренди (від 1 доби).",
+      "is_active": true
+    }
+  },
+  {
+    "model": "content.rentalstep",
+    "pk": 3,
+    "fields": {
+      "order": 3,
+      "icon": "book",
+      "title": "Забронюйте",
+      "description": "Заповніть контактні дані та оберіть зручний спосіб отримання: самовивіз або кур'єрська доставка (+100 грн).",
+      "is_active": true
+    }
+  },
+  {
+    "model": "content.rentalstep",
+    "pk": 4,
+    "fields": {
+      "order": 4,
+      "icon": "get-equipment",
+      "title": "Отримайте техніку",
+      "description": "Отримуйте техніку з хімією та інструктажем. Насолоджуйтесь ідеальною чистотою без зайвих витрат!",
+      "is_active": true
+    }
+  }
+]

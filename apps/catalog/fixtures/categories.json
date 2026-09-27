@@ -1,0 +1,8 @@
+[
+  {"model": "catalog.category", "pk": 1, "fields": {"name": "Підлогомийні машини", "slug": "floor-scrubbers", "order": 1, "is_active": true}},
+  {"model": "catalog.category", "pk": 2, "fields": {"name": "Професійні пилососи", "slug": "vacuum-cleaners", "order": 2, "is_active": true}},
+  {"model": "catalog.category", "pk": 3, "fields": {"name": "Пароочисники", "slug": "steam-cleaners", "order": 3, "is_active": true}},
+  {"model": "catalog.category", "pk": 4, "fields": {"name": "Апарати для чищення килимів", "slug": "carpet-cleaners", "order": 4, "is_active": true}},
+  {"model": "catalog.category", "pk": 5, "fields": {"name": "Газонокосарки", "slug": "lawn-mowers", "order": 5, "is_active": true}},
+  {"model": "catalog.category", "pk": 6, "fields": {"name": "Аксесуари", "slug": "accessories", "order": 6, "is_active": true}}
+]

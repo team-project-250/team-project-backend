@@ -27,14 +27,15 @@ This document covers **both** repositories — [`team-project-backend`](https://
 
 **Backend**
 
-- [ ] Project skeleton: `config/` with `settings/` split by environment (base / development / production)
-- [ ] Connect PostgreSQL via `django-environ` (`DATABASE_URL`), run the initial `migrate`
-- [ ] Wire up DRF, django-filter, CORS and drf-spectacular; root URLs (`/admin/`, `/api/`, schema)
-- [ ] Create the `apps/catalog` and `apps/bookings` applications
-- [ ] Define the core domain models (catalog first, then bookings) + migrations
-- [ ] Register everything in the Django admin and add a catalog seed fixture
-- [ ] Add a service layer (`apps/*/services.py`) between views and models
-- [ ] Structured logging and a DRF exception handler
+- [x] Project skeleton: `config/` with `settings/` split by environment (base / development / production)
+- [x] Connect PostgreSQL via `django-environ` (`DATABASE_URL`), run the initial `migrate`
+- [x] Wire up DRF, django-filter, CORS and drf-spectacular; root URLs (`/admin/`, `/api/`, schema)
+- [x] Create the `apps/catalog` and `apps/bookings` applications
+- [x] Define the core domain models (catalog first, then bookings) + migrations
+- [x] Register everything in the Django admin and add a catalog seed fixture
+- [x] Add a service layer (`apps/*/services.py`) between views and models
+- [x] Structured logging and a DRF exception handler
+- [x] Rate limiting across the public API (lookup, cancel, callback-request and booking creation are throttled; `bookings/quote/` is read-only with no side effects, deliberately left unthrottled)
 
 **Frontend**
 
@@ -73,11 +74,15 @@ Feature backlog (equipment-rental service) — see [`docs/BACKEND_ROADMAP.md`](d
 
 - [x] Cities & pickup points — `GET /api/cities/` for the header/footer city selector
 - [x] Customer reviews — moderated `GET /api/reviews/`
-- [ ] Equipment catalog — list with filters (category, city, price, availability), search, sorting, pagination
-- [ ] Equipment detail — full specs, gallery, "what's included", use-case tags
-- [ ] Availability calendar — booked dates per equipment for a given month
-- [ ] Booking flow — create a rental with server-side availability check and price calculation
-- [ ] My bookings — look up bookings by phone number, cancel a booking
+- [x] Equipment catalog — list with filters (category, city, price), search, sorting, pagination (availability filter comes in M8)
+- [x] Equipment detail — full specs, gallery, "what's included", benefits
+- [x] Availability calendar — booked dates per equipment for a given month
+- [x] Booking flow — create a rental with server-side availability check and price calculation
+- [x] One-click booking — record a phone number (+ optional equipment/dates) for a manager callback
+- [x] My bookings — look up bookings by phone number, cancel a booking
+- [x] Editable home-page content — hero, about, rental steps/terms, site settings, all managed in the admin
+- [x] Home aggregator — `GET /api/home/` for a single landing-page fetch
+- [x] Card page backend — badges, per-product "suitable for", breadcrumbs, related equipment, delivery/payment content, hardened quick-booking (phone format, date conflict, duplicates)
 
 ---
 
@@ -107,6 +112,7 @@ Feature backlog (equipment-rental service) — see [`docs/BACKEND_ROADMAP.md`](d
 
 - [ ] Backend deployed to [Render](https://render.com) via `render.yaml` (Gunicorn, `python manage.py migrate` on release)
 - [ ] Managed PostgreSQL instance provisioned and migrations applied
+- [ ] S3-compatible media bucket configured (`AWS_STORAGE_BUCKET_NAME` etc.) and `NUM_PROXIES` set for Render's proxy chain
 - [ ] Frontend deployed to [Vercel](https://vercel.com)
 - [ ] `VITE_API_URL` on the frontend points at the deployed backend
 - [ ] `CORS_ORIGINS` on the backend points at the deployed frontend

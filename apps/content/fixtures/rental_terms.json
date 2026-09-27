@@ -1,0 +1,68 @@
+[
+  {
+    "model": "content.rentalterm",
+    "pk": 1,
+    "fields": {
+      "order": 1,
+      "icon": "payment",
+      "title": "Оплата при отриманні",
+      "description": "Оплата здійснюється в момент отримання техніки готівкою або безготівковим переказом",
+      "is_active": true
+    }
+  },
+  {
+    "model": "content.rentalterm",
+    "pk": 2,
+    "fields": {
+      "order": 2,
+      "icon": "contract",
+      "title": "Підписання договору",
+      "description": "Під час отримання підписуємо простий договір оренди. Потрібен документ, що посвідчує особу (паспорт/ID або Дія)",
+      "is_active": true
+    }
+  },
+  {
+    "model": "content.rentalterm",
+    "pk": 3,
+    "fields": {
+      "order": 3,
+      "icon": "video",
+      "title": "Інструктаж та відео",
+      "description": "Під час передачі детально пояснюємо, як користуватись технікою, та надаємо коротку відео-інструкцію",
+      "is_active": true
+    }
+  },
+  {
+    "model": "content.rentalterm",
+    "pk": 4,
+    "fields": {
+      "order": 4,
+      "icon": "return",
+      "title": "Повернення техніки",
+      "description": "Повернення техніки має бути у тому ж справному та базово чистому стані, в якому ви її отримали",
+      "is_active": true
+    }
+  },
+  {
+    "model": "content.rentalterm",
+    "pk": 5,
+    "fields": {
+      "order": 5,
+      "icon": "chemistry",
+      "title": "Оригінальна хімія",
+      "description": "Використовуємо тільки професійну сертифіковану хімію Kärcher, яка входить у комплект",
+      "is_active": true
+    }
+  },
+  {
+    "model": "content.rentalterm",
+    "pk": 6,
+    "fields": {
+      "order": 6,
+      "icon": "delivery",
+      "title": "Самовивіз або доставка",
+      "description": "Самовивіз з нашого пункту видачі або зручна кур'єрська доставка по місту всього за 100 грн.",
+      "is_active": true
+    }
+  }
+]
