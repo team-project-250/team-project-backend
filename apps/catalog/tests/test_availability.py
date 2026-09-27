@@ -106,9 +106,15 @@ def test_availability_calendar_lists_booked_days(client, equipment, city):
         f"/api/equipment/{equipment.slug}/availability/?month={month}"
     ).json()
 
+    # The calendar only covers `month` — clip the expected days to it too,
+    # in case the booking (start_date..end_date, both relative to "today")
+    # happens to spill into the next month.
+    month_end = (start.replace(day=1) + datetime.timedelta(days=32)).replace(
+        day=1
+    ) - datetime.timedelta(days=1)
     expected = set()
     day = start
-    while day <= end:
+    while day <= min(end, month_end):
         expected.add(day.isoformat())
         day += datetime.timedelta(days=1)
     assert set(data["unavailable_dates"]) == expected
