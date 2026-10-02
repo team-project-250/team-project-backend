@@ -1,13 +1,34 @@
-# Team Project — Backend
+# EasyRent — Backend
 
-REST API for the Team Project — an equipment-rental service — built with **Django + Django REST Framework**.
+REST API for **EasyRent**, a cleaning-equipment rental service (Kärcher pressure
+washers, vacuums, floor scrubbers and more in Lutsk, Lviv, Kyiv and Odesa), built
+with **Django + Django REST Framework**.
 
-Frontend repository: [`team-project-frontend`](https://github.com/glor1ee/team-project-frontend)
+The project lives in **two repositories**:
 
-> **Status:** Stage 3 (core features) is complete — catalog, bookings, quick-booking,
-> reviews, cities and all editable home/product-page content are live behind the API
-> below. See [`DEVELOPMENT_PLAN.md`](DEVELOPMENT_PLAN.md) for what's next (polish,
-> testing, deploy).
+| Repository | What it is | Links |
+| --- | --- | --- |
+| **team-project-backend** (this repo) | Django REST API, admin panel, PostgreSQL | Swagger UI at `/api/docs/` once running locally (not deployed yet) |
+| [**team-project-frontend**](https://github.com/team-project-250/team-project-frontend) | React + TypeScript site | Live demo: <https://team-project-250.github.io/team-project-frontend/> |
+
+## Project status
+
+| Feature | Backend API | Frontend site |
+| --- | --- | --- |
+| Catalog: categories, filters, search, sorting, pagination | ✅ `GET /api/equipment/` | ✅ UI, data from local mock files |
+| Product page: specs, gallery, "suitable for", related items | ✅ `GET /api/equipment/{slug}/` | ✅ UI, data from local mock files |
+| Availability calendar | ✅ `GET /api/equipment/{slug}/availability/` | ✅ UI, availability from mock dates |
+| Booking with price calculation and conflict check | ✅ `POST /api/bookings/` | ✅ form; the booking is kept in the browser only |
+| "1-click" callback request | ✅ `POST /api/callback-requests/` | ❌ not connected |
+| "My bookings": lookup and cancel by phone | ✅ `GET /api/bookings/?phone=` | ❌ no page yet |
+| Home page content, reviews, cities | ✅ `GET /api/home/` + admin-editable | ✅ UI, content from local mock files |
+| Admin panel for managers | ✅ `/admin/` | — |
+
+**In short:** the API is feature-complete and covered by tests; the site is a
+finished UI that still runs on mock data. **Connecting the site to the API is the
+next step** (see [`DEVELOPMENT_PLAN.md`](DEVELOPMENT_PLAN.md)). The demo data
+(`python manage.py seed_demo`) is the same catalog, cities and reviews the site
+shows, so both describe the same products.
 
 ---
 
@@ -39,7 +60,7 @@ Frontend repository: [`team-project-frontend`](https://github.com/glor1ee/team-p
 ### 1. Clone and enter the project
 
 ```bash
-git clone https://github.com/glor1ee/team-project-backend.git
+git clone https://github.com/team-project-250/team-project-backend.git
 cd team-project-backend
 ```
 
@@ -101,9 +122,13 @@ python manage.py createsuperuser
 python manage.py seed_demo
 ```
 
-Loads every app's fixtures (cities, categories, equipment, reviews, home/product
-content) plus one demo booking, so the API and admin have real data to look at.
+Loads the same catalog (14 products in 7 categories), cities, pickup points and
+reviews the site shows, plus the home/product-page content and three demo
+bookings, and downloads the product photos from the live site into `media/`.
 Safe to run repeatedly.
+
+- `--skip-images` — don't download photos (e.g. offline)
+- `--reset` — also drop reviews left over from older demo data
 
 ### 7. Run the server
 
@@ -154,8 +179,8 @@ Generated automatically by drf-spectacular:
 | GET | `/api/home/` | Aggregates hero, about, rental steps/terms, settings, cities, categories, popular equipment and reviews into one response for the landing page |
 
 Content sections (hero, about, rental steps/terms, delivery/payment, site settings)
-are all editable through the Django admin — nothing on the home or product page is
-hardcoded on the frontend.
+are all editable through the Django admin, so once the frontend is connected to the
+API nothing on the home or product page needs to be hardcoded there.
 `HeroSection`, `AboutSection` and `SiteSettings` are singletons (the admin hides
 "Add" once a row exists).
 
@@ -294,5 +319,5 @@ Keep the history clean — one logical change per commit.
 
 | Name | Role | GitHub |
 | --- | --- | --- |
-| _TBD_ | Backend | [@username](https://github.com/username) |
-| _TBD_ | Frontend | [@username](https://github.com/username) |
+| Taras Mosiichuk | Backend | [@tarasmosiichuk01-ship-it](https://github.com/tarasmosiichuk01-ship-it) |
+| Alexey Kravets | Frontend | [@kravets111](https://github.com/kravets111) |
