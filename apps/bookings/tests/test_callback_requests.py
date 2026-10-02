@@ -50,8 +50,8 @@ def test_create_callback_request_with_equipment_and_dates(client):
         {
             "phone": "+380501234567",
             "equipment": equipment.slug,
-            "start_date": "2026-10-01",
-            "end_date": "2026-10-03",
+            "start_date": today_plus(1).isoformat(),
+            "end_date": today_plus(3).isoformat(),
         },
         content_type="application/json",
     )
