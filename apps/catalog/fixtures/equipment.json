@@ -1,56 +1,2152 @@
 [
-  {"model": "catalog.equipment", "pk": 1, "fields": {
-    "name": "Професійний миючий пилосос Karcher Puzzi 8/1",
-    "slug": "karcher-puzzi-8-1", "sku": "PUZZI-8-1", "category": 2,
-    "short_description": "Миючий пилосос для м'яких меблів, килимів і салонів авто",
-    "description": "Професійний миючий пилосос для глибокого очищення текстильних поверхонь.",
-    "price_per_day": "600.00", "rating": "4.80", "is_popular": true, "is_active": true,
-    "available_cities": [1, 3], "created_at": "2026-06-01T09:00:00Z"}},
-  {"model": "catalog.equipment", "pk": 2, "fields": {
-    "name": "Професійний пароочисник Karcher SC 4 Deluxe",
-    "slug": "karcher-sc-4-deluxe", "sku": "SC-4-DELUXE", "category": 3,
-    "short_description": "Пароочисник для дезінфекції та миття без хімії",
-    "description": "Мийний пилосос для глибокого очищення килимів, м'яких меблів і салону авто. Видаляє навіть застарілі плями та стійкі запахи. Професійна якість Karcher забезпечує швидке видалення бруду та вологи екстракцією без пошкодження тканини.",
-    "price_per_day": "650.00", "rating": "4.50", "is_popular": true, "is_active": true,
-    "available_cities": [1, 4], "created_at": "2026-06-02T09:00:00Z"}},
-  {"model": "catalog.equipment", "pk": 3, "fields": {
-    "name": "Господарський пилосос Karcher WD 2V-12/4/18/C",
-    "slug": "karcher-wd-2v", "sku": "WD-2V-12-4-18-C", "category": 2,
-    "short_description": "Пилосос для сухого та вологого прибирання",
-    "description": "Потужний господарський пилосос для будівельного та побутового сміття.",
-    "price_per_day": "350.00", "rating": "4.30", "is_popular": true, "is_active": true,
-    "available_cities": [1, 2, 4], "created_at": "2026-06-03T09:00:00Z"}},
-  {"model": "catalog.equipment", "pk": 4, "fields": {
-    "name": "Професійний пароочисник Karcher SC 3",
-    "slug": "karcher-sc-3", "sku": "SC-3", "category": 3,
-    "short_description": "Компактний пароочисник для щоденного прибирання",
-    "description": "Легкий пароочисник для кухні, ванної кімнати та твердих підлог.",
-    "price_per_day": "600.00", "rating": "4.20", "is_popular": false, "is_active": true,
-    "available_cities": [1], "created_at": "2026-06-04T09:00:00Z"}},
-
-  {"model": "catalog.equipmentspec", "pk": 1, "fields": {"equipment": 1, "label": "Потужність", "value": "1400 Вт", "order": 1}},
-  {"model": "catalog.equipmentspec", "pk": 2, "fields": {"equipment": 2, "label": "Тиск пари", "value": "3.5 бар", "order": 1}},
-  {"model": "catalog.equipmentspec", "pk": 3, "fields": {"equipment": 2, "label": "Час нагріву", "value": "30 сек", "order": 2}},
-  {"model": "catalog.equipmentspec", "pk": 4, "fields": {"equipment": 4, "label": "Тиск пари", "value": "3.2 бар", "order": 1}},
-
-  {"model": "catalog.equipmentincludeditem", "pk": 1, "fields": {"equipment": 1, "name": "Насадка для підлоги", "order": 1}},
-  {"model": "catalog.equipmentincludeditem", "pk": 2, "fields": {"equipment": 2, "name": "Насадка для підлоги і килимового покриття", "order": 1}},
-  {"model": "catalog.equipmentincludeditem", "pk": 3, "fields": {"equipment": 2, "name": "Насадка для меблів і салону авто", "order": 2}},
-  {"model": "catalog.equipmentincludeditem", "pk": 4, "fields": {"equipment": 2, "name": "Водний шланг", "order": 3}},
-
-  {"model": "catalog.equipmentbenefit", "pk": 1, "fields": {"equipment": 1, "text": "Оригінальна хімія та інструктаж у комплекті", "order": 1}},
-  {"model": "catalog.equipmentbenefit", "pk": 2, "fields": {"equipment": 2, "text": "В наявності у м. Луцьк, Одеса", "order": 1}},
-  {"model": "catalog.equipmentbenefit", "pk": 3, "fields": {"equipment": 2, "text": "Оригінальна хімія та інструктаж у комплекті", "order": 2}},
-
-  {"model": "catalog.equipmentbadge", "pk": 1, "fields": {"equipment": 1, "label": "Оригінал Karcher", "order": 1}},
-  {"model": "catalog.equipmentbadge", "pk": 2, "fields": {"equipment": 2, "label": "Оригінал Karcher", "order": 1}},
-  {"model": "catalog.equipmentbadge", "pk": 3, "fields": {"equipment": 2, "label": "Хіт", "order": 2}},
-  {"model": "catalog.equipmentbadge", "pk": 4, "fields": {"equipment": 3, "label": "Оригінал Karcher", "order": 1}},
-  {"model": "catalog.equipmentbadge", "pk": 5, "fields": {"equipment": 4, "label": "Оригінал Karcher", "order": 1}},
-
-  {"model": "catalog.equipmentusecase", "pk": 1, "fields": {"equipment": 2, "text": "Ідеально підходить", "order": 1}},
-  {"model": "catalog.equipmentusecase", "pk": 2, "fields": {"equipment": 2, "text": "Хімчистки килимового покриття", "order": 2}},
-  {"model": "catalog.equipmentusecase", "pk": 3, "fields": {"equipment": 2, "text": "Хімчистки меблів і салону авто", "order": 3}},
-  {"model": "catalog.equipmentusecase", "pk": 4, "fields": {"equipment": 2, "text": "Професійного прибирання", "order": 4}},
-  {"model": "catalog.equipmentusecase", "pk": 5, "fields": {"equipment": 2, "text": "Видалення складних плям", "order": 5}}
+  {
+    "model": "catalog.equipment",
+    "pk": 1,
+    "fields": {
+      "name": "Апарат високого тиску Kärcher HD 6/15",
+      "slug": "karcher-hd-6-15",
+      "sku": "HD-6-15",
+      "category": 7,
+      "short_description": "Професійний апарат високого тиску для ефективного очищення.",
+      "description": "Професійний апарат високого тиску для ефективного очищення.",
+      "price_per_day": "700.00",
+      "rating": "4.80",
+      "is_popular": true,
+      "is_active": true,
+      "main_image": "equipment/hd-6-15.png",
+      "available_cities": [
+        1,
+        2,
+        4
+      ],
+      "created_at": "2026-09-01T09:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.equipment",
+    "pk": 2,
+    "fields": {
+      "name": "Апарат високого тиску Kärcher HD 10/25-4 S",
+      "slug": "karcher-hd-10-25-4-s",
+      "sku": "HD-10-25-4-S",
+      "category": 7,
+      "short_description": "Потужний професійний апарат високого тиску для інтенсивного очищення.",
+      "description": "Потужний професійний апарат високого тиску для інтенсивного очищення.",
+      "price_per_day": "1000.00",
+      "rating": "4.90",
+      "is_popular": true,
+      "is_active": true,
+      "main_image": "equipment/hd-10-25-4-s.png",
+      "available_cities": [
+        1,
+        3
+      ],
+      "created_at": "2026-09-01T09:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.equipment",
+    "pk": 3,
+    "fields": {
+      "name": "Професійний пилосос Kärcher NT 35/1 Ap",
+      "slug": "karcher-nt-35-1-ap",
+      "sku": "NT-35-1-AP",
+      "category": 2,
+      "short_description": "Компактний професійний пилосос для сухого прибирання.",
+      "description": "Компактний професійний пилосос для сухого прибирання.",
+      "price_per_day": "350.00",
+      "rating": "4.70",
+      "is_popular": true,
+      "is_active": true,
+      "main_image": "equipment/nt-35-1-ap.png",
+      "available_cities": [
+        1,
+        2,
+        4
+      ],
+      "created_at": "2026-09-01T09:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.equipment",
+    "pk": 4,
+    "fields": {
+      "name": "Професійний пилосос Kärcher NT 65/2 Eco",
+      "slug": "karcher-nt-65-2-eco",
+      "sku": "NT-65-2-ECO",
+      "category": 2,
+      "short_description": "Професійний пилосос із великим контейнером для тривалого прибирання.",
+      "description": "Професійний пилосос із великим контейнером для тривалого прибирання.",
+      "price_per_day": "600.00",
+      "rating": "4.80",
+      "is_popular": true,
+      "is_active": true,
+      "main_image": "equipment/nt-65-2-eco.png",
+      "available_cities": [
+        1,
+        3
+      ],
+      "created_at": "2026-09-01T09:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.equipment",
+    "pk": 5,
+    "fields": {
+      "name": "Миючий пилосос Kärcher Puzzi 10/1",
+      "slug": "karcher-puzzi-10-1",
+      "sku": "PUZZI-10-1",
+      "category": 4,
+      "short_description": "Професійний миючий пилосос для очищення килимів та м’яких меблів.",
+      "description": "Професійний миючий пилосос для очищення килимів та м’яких меблів.",
+      "price_per_day": "700.00",
+      "rating": "4.90",
+      "is_popular": true,
+      "is_active": true,
+      "main_image": "equipment/puzzi-10-1.png",
+      "available_cities": [
+        1,
+        2,
+        4
+      ],
+      "created_at": "2026-09-01T09:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.equipment",
+    "pk": 6,
+    "fields": {
+      "name": "Миючий пилосос Kärcher Puzzi 8/1 C",
+      "slug": "karcher-puzzi-8-1-c",
+      "sku": "PUZZI-8-1-C",
+      "category": 4,
+      "short_description": "Компактний миючий пилосос для глибокого очищення текстильних поверхонь.",
+      "description": "Компактний миючий пилосос для глибокого очищення текстильних поверхонь.",
+      "price_per_day": "700.00",
+      "rating": "4.80",
+      "is_popular": true,
+      "is_active": true,
+      "main_image": "equipment/puzzi-8-1-c.png",
+      "available_cities": [
+        1,
+        3
+      ],
+      "created_at": "2026-09-01T09:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.equipment",
+    "pk": 7,
+    "fields": {
+      "name": "Підлогомийна машина Kärcher BD 50/60 C Ep Classic",
+      "slug": "karcher-bd-50-60-c-ep-classic",
+      "sku": "BD-50-60-C-EP-CLASSIC",
+      "category": 1,
+      "short_description": "Професійна підлогомийна машина для ефективного очищення підлоги.",
+      "description": "Професійна підлогомийна машина для ефективного очищення підлоги.",
+      "price_per_day": "1300.00",
+      "rating": "4.90",
+      "is_popular": true,
+      "is_active": true,
+      "main_image": "equipment/bd-50-60-c-ep-classic.png",
+      "available_cities": [
+        1,
+        3
+      ],
+      "created_at": "2026-09-01T09:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.equipment",
+    "pk": 8,
+    "fields": {
+      "name": "Підлогомийна машина Kärcher BD 43/35 C Ep",
+      "slug": "karcher-bd-43-35-c-ep",
+      "sku": "BD-43-35-C-EP",
+      "category": 1,
+      "short_description": "Компактна підлогомийна машина для професійного прибирання.",
+      "description": "Компактна підлогомийна машина для професійного прибирання.",
+      "price_per_day": "1150.00",
+      "rating": "4.70",
+      "is_popular": true,
+      "is_active": true,
+      "main_image": "equipment/bd-43-35-c-ep.png",
+      "available_cities": [
+        1,
+        2,
+        4
+      ],
+      "created_at": "2026-09-01T09:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.equipment",
+    "pk": 9,
+    "fields": {
+      "name": "Пароочисник Kärcher SG 4/4",
+      "slug": "karcher-sg-4-4",
+      "sku": "SG-4-4",
+      "category": 3,
+      "short_description": "Професійний пароочисник для гігієнічного очищення поверхонь.",
+      "description": "Професійний пароочисник для гігієнічного очищення поверхонь.",
+      "price_per_day": "600.00",
+      "rating": "4.80",
+      "is_popular": true,
+      "is_active": true,
+      "main_image": "equipment/sg-4-4.png",
+      "available_cities": [
+        1,
+        2,
+        4
+      ],
+      "created_at": "2026-09-01T09:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.equipment",
+    "pk": 10,
+    "fields": {
+      "name": "Пароочисник Kärcher SC 4 EasyFix",
+      "slug": "karcher-sc-4-easyfix",
+      "sku": "SC-4-EASYFIX",
+      "category": 3,
+      "short_description": "Побутовий пароочисник для ефективного очищення різних поверхонь.",
+      "description": "Побутовий пароочисник для ефективного очищення різних поверхонь.",
+      "price_per_day": "350.00",
+      "rating": "4.60",
+      "is_popular": true,
+      "is_active": true,
+      "main_image": "equipment/sc-4-easyfix.png",
+      "available_cities": [
+        1,
+        3
+      ],
+      "created_at": "2026-09-01T09:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.equipment",
+    "pk": 11,
+    "fields": {
+      "name": "Акумуляторна газонокосарка Kärcher LMO 18-33 Battery Set",
+      "slug": "karcher-lmo-18-33-battery-set",
+      "sku": "LMO-18-33-BATTERY-SET",
+      "category": 5,
+      "short_description": "Легка та маневрена акумуляторна газонокосарка для догляду за газоном.",
+      "description": "Легка та маневрена акумуляторна газонокосарка для догляду за газоном.",
+      "price_per_day": "500.00",
+      "rating": "4.70",
+      "is_popular": true,
+      "is_active": true,
+      "main_image": "equipment/lmo-18-33.png",
+      "available_cities": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "created_at": "2026-09-01T09:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.equipment",
+    "pk": 12,
+    "fields": {
+      "name": "Акумуляторна газонокосарка Kärcher LMO 18-36 Battery Set",
+      "slug": "karcher-lmo-18-36-battery-set",
+      "sku": "LMO-18-36-BATTERY-SET",
+      "category": 5,
+      "short_description": "Акумуляторна газонокосарка для ефективного догляду за газоном.",
+      "description": "Акумуляторна газонокосарка для ефективного догляду за газоном.",
+      "price_per_day": "600.00",
+      "rating": "4.80",
+      "is_popular": true,
+      "is_active": true,
+      "main_image": "equipment/lmo-18-36.png",
+      "available_cities": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "created_at": "2026-09-01T09:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.equipment",
+    "pk": 13,
+    "fields": {
+      "name": "Пінна насадка Kärcher FJ 6",
+      "slug": "karcher-fj-6",
+      "sku": "FJ-6",
+      "category": 6,
+      "short_description": "Пінна насадка для нанесення мийного засобу та ретельного очищення поверхонь.",
+      "description": "Пінна насадка для нанесення мийного засобу та ретельного очищення поверхонь.",
+      "price_per_day": "150.00",
+      "rating": "4.60",
+      "is_popular": true,
+      "is_active": true,
+      "main_image": "equipment/fj-6.png",
+      "available_cities": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "created_at": "2026-09-01T09:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.equipment",
+    "pk": 14,
+    "fields": {
+      "name": "Обертова миюча щітка Kärcher WB 130",
+      "slug": "karcher-wb-130",
+      "sku": "WB-130",
+      "category": 6,
+      "short_description": "Обертова миюча щітка для дбайливого очищення автомобілів та інших поверхонь.",
+      "description": "Обертова миюча щітка для дбайливого очищення автомобілів та інших поверхонь.",
+      "price_per_day": "200.00",
+      "rating": "4.70",
+      "is_popular": true,
+      "is_active": true,
+      "main_image": "equipment/wb-130.png",
+      "available_cities": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "created_at": "2026-09-01T09:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.equipmentimage",
+    "pk": 1,
+    "fields": {
+      "equipment": 1,
+      "image": "equipment/gallery/hd-6-15-2.png",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentimage",
+    "pk": 2,
+    "fields": {
+      "equipment": 1,
+      "image": "equipment/gallery/hd-6-15-3.png",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 1,
+    "fields": {
+      "equipment": 1,
+      "label": "Продуктивність",
+      "value": "560 л/год",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 2,
+    "fields": {
+      "equipment": 1,
+      "label": "Робочий тиск",
+      "value": "150 бар",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 3,
+    "fields": {
+      "equipment": 1,
+      "label": "Максимальний тиск",
+      "value": "225 бар",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 4,
+    "fields": {
+      "equipment": 1,
+      "label": "Потужність",
+      "value": "3 кВт",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 5,
+    "fields": {
+      "equipment": 1,
+      "label": "Вага",
+      "value": "25,6 кг",
+      "order": 5
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 1,
+    "fields": {
+      "equipment": 1,
+      "name": "Пістолет EASY!Force",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 2,
+    "fields": {
+      "equipment": 1,
+      "name": "10-метровий шланг високого тиску",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 3,
+    "fields": {
+      "equipment": 1,
+      "name": "Струменева трубка 840 мм",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentbadge",
+    "pk": 1,
+    "fields": {
+      "equipment": 1,
+      "label": "Оригінал Karcher",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 1,
+    "fields": {
+      "equipment": 1,
+      "text": "Очищення автомобілів",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 2,
+    "fields": {
+      "equipment": 1,
+      "text": "Очищення фасадів",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 3,
+    "fields": {
+      "equipment": 1,
+      "text": "Очищення терас та дворів",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 4,
+    "fields": {
+      "equipment": 1,
+      "text": "Очищення будівельної техніки",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentimage",
+    "pk": 3,
+    "fields": {
+      "equipment": 2,
+      "image": "equipment/gallery/hd-10-25-4-s-3.png",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 6,
+    "fields": {
+      "equipment": 2,
+      "label": "Продуктивність",
+      "value": "500–1000 л/год",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 7,
+    "fields": {
+      "equipment": 2,
+      "label": "Робочий тиск",
+      "value": "80–250 бар",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 8,
+    "fields": {
+      "equipment": 2,
+      "label": "Максимальний тиск",
+      "value": "280 бар",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 9,
+    "fields": {
+      "equipment": 2,
+      "label": "Потужність",
+      "value": "8,8 кВт",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 10,
+    "fields": {
+      "equipment": 2,
+      "label": "Вага",
+      "value": "69,8 кг",
+      "order": 5
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 4,
+    "fields": {
+      "equipment": 2,
+      "name": "Пістолет EASY!Force Advanced",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 5,
+    "fields": {
+      "equipment": 2,
+      "name": "10-метровий шланг високого тиску",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 6,
+    "fields": {
+      "equipment": 2,
+      "name": "Струменева трубка 1050 мм",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 7,
+    "fields": {
+      "equipment": 2,
+      "name": "Power nozzle",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 8,
+    "fields": {
+      "equipment": 2,
+      "name": "Servo Control",
+      "order": 5
+    }
+  },
+  {
+    "model": "catalog.equipmentbadge",
+    "pk": 2,
+    "fields": {
+      "equipment": 2,
+      "label": "Оригінал Karcher",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 5,
+    "fields": {
+      "equipment": 2,
+      "text": "Професійне очищення",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 6,
+    "fields": {
+      "equipment": 2,
+      "text": "Очищення фасадів",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 7,
+    "fields": {
+      "equipment": 2,
+      "text": "Очищення промислового обладнання",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 8,
+    "fields": {
+      "equipment": 2,
+      "text": "Очищення великої техніки",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentimage",
+    "pk": 4,
+    "fields": {
+      "equipment": 3,
+      "image": "equipment/gallery/nt-35-1-ap-2.png",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 11,
+    "fields": {
+      "equipment": 3,
+      "label": "Обʼєм контейнера",
+      "value": "35 л",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 12,
+    "fields": {
+      "equipment": 3,
+      "label": "Тип",
+      "value": "пилосос для сухого та вологого прибирання",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 13,
+    "fields": {
+      "equipment": 3,
+      "label": "Система очищення фільтра",
+      "value": "ApClean",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 14,
+    "fields": {
+      "equipment": 3,
+      "label": "Компактна конструкція",
+      "value": "",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 9,
+    "fields": {
+      "equipment": 3,
+      "name": "Пилозбірник",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 10,
+    "fields": {
+      "equipment": 3,
+      "name": "Шланг всмоктування",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 11,
+    "fields": {
+      "equipment": 3,
+      "name": "Фільтр",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 12,
+    "fields": {
+      "equipment": 3,
+      "name": "Насадки для прибирання",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentbadge",
+    "pk": 3,
+    "fields": {
+      "equipment": 3,
+      "label": "Оригінал Karcher",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 9,
+    "fields": {
+      "equipment": 3,
+      "text": "Сухе прибирання",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 10,
+    "fields": {
+      "equipment": 3,
+      "text": "Вологе прибирання",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 11,
+    "fields": {
+      "equipment": 3,
+      "text": "Прибирання після ремонту",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 12,
+    "fields": {
+      "equipment": 3,
+      "text": "Прибирання майстерень",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentimage",
+    "pk": 5,
+    "fields": {
+      "equipment": 4,
+      "image": "equipment/gallery/nt-65-2-eco-2.png",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentimage",
+    "pk": 6,
+    "fields": {
+      "equipment": 4,
+      "image": "equipment/gallery/nt-65-2-eco-3.png",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 15,
+    "fields": {
+      "equipment": 4,
+      "label": "Обʼєм контейнера",
+      "value": "65 л",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 16,
+    "fields": {
+      "equipment": 4,
+      "label": "Тип",
+      "value": "пилосос для сухого та вологого прибирання",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 17,
+    "fields": {
+      "equipment": 4,
+      "label": "Двигуни",
+      "value": "2",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 18,
+    "fields": {
+      "equipment": 4,
+      "label": "Великий контейнер для сміття",
+      "value": "",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 13,
+    "fields": {
+      "equipment": 4,
+      "name": "Шланг всмоктування",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 14,
+    "fields": {
+      "equipment": 4,
+      "name": "Фільтр",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 15,
+    "fields": {
+      "equipment": 4,
+      "name": "Підлогова насадка",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 16,
+    "fields": {
+      "equipment": 4,
+      "name": "Щілинна насадка",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentbadge",
+    "pk": 4,
+    "fields": {
+      "equipment": 4,
+      "label": "Оригінал Karcher",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 13,
+    "fields": {
+      "equipment": 4,
+      "text": "Прибирання великих приміщень",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 14,
+    "fields": {
+      "equipment": 4,
+      "text": "Будівельні роботи",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 15,
+    "fields": {
+      "equipment": 4,
+      "text": "Майстерні",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 16,
+    "fields": {
+      "equipment": 4,
+      "text": "Вологе прибирання",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentimage",
+    "pk": 7,
+    "fields": {
+      "equipment": 5,
+      "image": "equipment/gallery/puzzi-10-1-3.png",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 19,
+    "fields": {
+      "equipment": 5,
+      "label": "Продуктивність",
+      "value": "20–25 м²/год",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 20,
+    "fields": {
+      "equipment": 5,
+      "label": "Обʼєм бака чистої води",
+      "value": "10 л",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 21,
+    "fields": {
+      "equipment": 5,
+      "label": "Обʼєм бака брудної води",
+      "value": "9 л",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 22,
+    "fields": {
+      "equipment": 5,
+      "label": "Потужність",
+      "value": "1250 Вт",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 17,
+    "fields": {
+      "equipment": 5,
+      "name": "Шланг розпилення та всмоктування",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 18,
+    "fields": {
+      "equipment": 5,
+      "name": "Ручна насадка",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 19,
+    "fields": {
+      "equipment": 5,
+      "name": "Підлогова насадка",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 20,
+    "fields": {
+      "equipment": 5,
+      "name": "Бак для чистої води",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentbadge",
+    "pk": 5,
+    "fields": {
+      "equipment": 5,
+      "label": "Оригінал Karcher",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 17,
+    "fields": {
+      "equipment": 5,
+      "text": "Чищення килимів",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 18,
+    "fields": {
+      "equipment": 5,
+      "text": "Чищення килимових покриттів",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 19,
+    "fields": {
+      "equipment": 5,
+      "text": "Чищення мʼяких меблів",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 20,
+    "fields": {
+      "equipment": 5,
+      "text": "Видалення плям з текстилю",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentimage",
+    "pk": 8,
+    "fields": {
+      "equipment": 6,
+      "image": "equipment/gallery/puzzi-8-1-c-3.png",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 23,
+    "fields": {
+      "equipment": 6,
+      "label": "Продуктивність",
+      "value": "12–18 м²/год",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 24,
+    "fields": {
+      "equipment": 6,
+      "label": "Обʼєм бака чистої води",
+      "value": "8 л",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 25,
+    "fields": {
+      "equipment": 6,
+      "label": "Обʼєм бака брудної води",
+      "value": "7 л",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 26,
+    "fields": {
+      "equipment": 6,
+      "label": "Потужність",
+      "value": "1200 Вт",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 21,
+    "fields": {
+      "equipment": 6,
+      "name": "Шланг розпилення та всмоктування",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 22,
+    "fields": {
+      "equipment": 6,
+      "name": "Ручна насадка",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 23,
+    "fields": {
+      "equipment": 6,
+      "name": "Бак для чистої води",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentbadge",
+    "pk": 6,
+    "fields": {
+      "equipment": 6,
+      "label": "Оригінал Karcher",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 21,
+    "fields": {
+      "equipment": 6,
+      "text": "Чищення килимів",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 22,
+    "fields": {
+      "equipment": 6,
+      "text": "Чищення мʼяких меблів",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 23,
+    "fields": {
+      "equipment": 6,
+      "text": "Автомобільні сидіння",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 24,
+    "fields": {
+      "equipment": 6,
+      "text": "Видалення плям з текстилю",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentimage",
+    "pk": 9,
+    "fields": {
+      "equipment": 7,
+      "image": "equipment/gallery/bd-50-60-c-ep-classic-3.png",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 27,
+    "fields": {
+      "equipment": 7,
+      "label": "Ширина робочої зони",
+      "value": "510 мм",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 28,
+    "fields": {
+      "equipment": 7,
+      "label": "Обʼєм бака чистої води",
+      "value": "60 л",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 29,
+    "fields": {
+      "equipment": 7,
+      "label": "Обʼєм бака брудної води",
+      "value": "60 л",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 30,
+    "fields": {
+      "equipment": 7,
+      "label": "Живлення",
+      "value": "від мережі",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 24,
+    "fields": {
+      "equipment": 7,
+      "name": "Дискова щітка",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 25,
+    "fields": {
+      "equipment": 7,
+      "name": "Бак для чистої води",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 26,
+    "fields": {
+      "equipment": 7,
+      "name": "Бак для брудної води",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 27,
+    "fields": {
+      "equipment": 7,
+      "name": "Всмоктувальна балка",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentbadge",
+    "pk": 7,
+    "fields": {
+      "equipment": 7,
+      "label": "Оригінал Karcher",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 25,
+    "fields": {
+      "equipment": 7,
+      "text": "Прибирання великих приміщень",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 26,
+    "fields": {
+      "equipment": 7,
+      "text": "Магазини",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 27,
+    "fields": {
+      "equipment": 7,
+      "text": "Склади",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 28,
+    "fields": {
+      "equipment": 7,
+      "text": "Торгові центри",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 29,
+    "fields": {
+      "equipment": 7,
+      "text": "Промислові приміщення",
+      "order": 5
+    }
+  },
+  {
+    "model": "catalog.equipmentimage",
+    "pk": 10,
+    "fields": {
+      "equipment": 8,
+      "image": "equipment/gallery/bd-43-35-c-ep-3.png",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 31,
+    "fields": {
+      "equipment": 8,
+      "label": "Ширина робочої зони",
+      "value": "430 мм",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 32,
+    "fields": {
+      "equipment": 8,
+      "label": "Обʼєм бака чистої води",
+      "value": "35 л",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 33,
+    "fields": {
+      "equipment": 8,
+      "label": "Обʼєм бака брудної води",
+      "value": "35 л",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 34,
+    "fields": {
+      "equipment": 8,
+      "label": "Живлення",
+      "value": "від мережі",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 28,
+    "fields": {
+      "equipment": 8,
+      "name": "Дискова щітка",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 29,
+    "fields": {
+      "equipment": 8,
+      "name": "Бак для чистої води",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 30,
+    "fields": {
+      "equipment": 8,
+      "name": "Бак для брудної води",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 31,
+    "fields": {
+      "equipment": 8,
+      "name": "Всмоктувальна балка",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentbadge",
+    "pk": 8,
+    "fields": {
+      "equipment": 8,
+      "label": "Оригінал Karcher",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 30,
+    "fields": {
+      "equipment": 8,
+      "text": "Очищення твердих підлог",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 31,
+    "fields": {
+      "equipment": 8,
+      "text": "Магазини",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 32,
+    "fields": {
+      "equipment": 8,
+      "text": "Офіси",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 33,
+    "fields": {
+      "equipment": 8,
+      "text": "Склади",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 34,
+    "fields": {
+      "equipment": 8,
+      "text": "Готелі",
+      "order": 5
+    }
+  },
+  {
+    "model": "catalog.equipmentimage",
+    "pk": 11,
+    "fields": {
+      "equipment": 9,
+      "image": "equipment/gallery/sg-4-4-3.png",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 35,
+    "fields": {
+      "equipment": 9,
+      "label": "Тиск пари",
+      "value": "до 4 бар",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 36,
+    "fields": {
+      "equipment": 9,
+      "label": "Обʼєм бака",
+      "value": "4 л",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 37,
+    "fields": {
+      "equipment": 9,
+      "label": "Потужність",
+      "value": "2300 Вт",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 38,
+    "fields": {
+      "equipment": 9,
+      "label": "Температура пари",
+      "value": "до 145 °C",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 32,
+    "fields": {
+      "equipment": 9,
+      "name": "Паровий шланг",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 33,
+    "fields": {
+      "equipment": 9,
+      "name": "Ручна насадка",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 34,
+    "fields": {
+      "equipment": 9,
+      "name": "Точкова насадка",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 35,
+    "fields": {
+      "equipment": 9,
+      "name": "Щітки",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentbadge",
+    "pk": 9,
+    "fields": {
+      "equipment": 9,
+      "label": "Оригінал Karcher",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 35,
+    "fields": {
+      "equipment": 9,
+      "text": "Дезінфекція поверхонь",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 36,
+    "fields": {
+      "equipment": 9,
+      "text": "Очищення кухонь",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 37,
+    "fields": {
+      "equipment": 9,
+      "text": "Очищення санвузлів",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 38,
+    "fields": {
+      "equipment": 9,
+      "text": "Очищення твердих поверхонь",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentimage",
+    "pk": 12,
+    "fields": {
+      "equipment": 10,
+      "image": "equipment/gallery/sc-4-easyfix-3.png",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 39,
+    "fields": {
+      "equipment": 10,
+      "label": "Тиск пари",
+      "value": "до 3,5 бар",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 40,
+    "fields": {
+      "equipment": 10,
+      "label": "Обʼєм бака",
+      "value": "0,8 л",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 41,
+    "fields": {
+      "equipment": 10,
+      "label": "Потужність",
+      "value": "2000 Вт",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 42,
+    "fields": {
+      "equipment": 10,
+      "label": "Час нагрівання",
+      "value": "близько 4 хв",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 36,
+    "fields": {
+      "equipment": 10,
+      "name": "Паровий шланг",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 37,
+    "fields": {
+      "equipment": 10,
+      "name": "Підлогова насадка EasyFix",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 38,
+    "fields": {
+      "equipment": 10,
+      "name": "Ручна насадка",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 39,
+    "fields": {
+      "equipment": 10,
+      "name": "Щітки",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentbadge",
+    "pk": 10,
+    "fields": {
+      "equipment": 10,
+      "label": "Оригінал Karcher",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 39,
+    "fields": {
+      "equipment": 10,
+      "text": "Прибирання підлоги",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 40,
+    "fields": {
+      "equipment": 10,
+      "text": "Очищення кухні",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 41,
+    "fields": {
+      "equipment": 10,
+      "text": "Очищення ванної кімнати",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 42,
+    "fields": {
+      "equipment": 10,
+      "text": "Очищення плитки",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 43,
+    "fields": {
+      "equipment": 10,
+      "text": "Очищення скла",
+      "order": 5
+    }
+  },
+  {
+    "model": "catalog.equipmentimage",
+    "pk": 13,
+    "fields": {
+      "equipment": 11,
+      "image": "equipment/gallery/lmo-18-33-battery-set-3.png",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 43,
+    "fields": {
+      "equipment": 11,
+      "label": "Ширина косіння",
+      "value": "33 см",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 44,
+    "fields": {
+      "equipment": 11,
+      "label": "Живлення",
+      "value": "18 В",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 45,
+    "fields": {
+      "equipment": 11,
+      "label": "Травозбірник",
+      "value": "35 л",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 46,
+    "fields": {
+      "equipment": 11,
+      "label": "Регулювання висоти косіння",
+      "value": "",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 40,
+    "fields": {
+      "equipment": 11,
+      "name": "Травозбірник",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 41,
+    "fields": {
+      "equipment": 11,
+      "name": "Акумулятор",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 42,
+    "fields": {
+      "equipment": 11,
+      "name": "Зарядний пристрій",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 43,
+    "fields": {
+      "equipment": 11,
+      "name": "Ніж газонокосарки",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentbadge",
+    "pk": 11,
+    "fields": {
+      "equipment": 11,
+      "label": "Оригінал Karcher",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 44,
+    "fields": {
+      "equipment": 11,
+      "text": "Догляд за газоном",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 45,
+    "fields": {
+      "equipment": 11,
+      "text": "Косіння невеликих ділянок",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 46,
+    "fields": {
+      "equipment": 11,
+      "text": "Приватні подвірʼя",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 47,
+    "fields": {
+      "equipment": 11,
+      "text": "Дачні ділянки",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentimage",
+    "pk": 14,
+    "fields": {
+      "equipment": 12,
+      "image": "equipment/gallery/lmo-18-36-battery-set-3.png",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 47,
+    "fields": {
+      "equipment": 12,
+      "label": "Ширина косіння",
+      "value": "36 см",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 48,
+    "fields": {
+      "equipment": 12,
+      "label": "Живлення",
+      "value": "18 В",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 49,
+    "fields": {
+      "equipment": 12,
+      "label": "Травозбірник",
+      "value": "45 л",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 50,
+    "fields": {
+      "equipment": 12,
+      "label": "Регулювання висоти косіння",
+      "value": "",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 44,
+    "fields": {
+      "equipment": 12,
+      "name": "Травозбірник",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 45,
+    "fields": {
+      "equipment": 12,
+      "name": "Акумулятор",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 46,
+    "fields": {
+      "equipment": 12,
+      "name": "Зарядний пристрій",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 47,
+    "fields": {
+      "equipment": 12,
+      "name": "Ніж газонокосарки",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentbadge",
+    "pk": 12,
+    "fields": {
+      "equipment": 12,
+      "label": "Оригінал Karcher",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 48,
+    "fields": {
+      "equipment": 12,
+      "text": "Догляд за газоном",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 49,
+    "fields": {
+      "equipment": 12,
+      "text": "Косіння середніх ділянок",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 50,
+    "fields": {
+      "equipment": 12,
+      "text": "Приватні подвірʼя",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 51,
+    "fields": {
+      "equipment": 12,
+      "text": "Дачні ділянки",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentimage",
+    "pk": 15,
+    "fields": {
+      "equipment": 13,
+      "image": "equipment/gallery/fj-6-3.png",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 51,
+    "fields": {
+      "equipment": 13,
+      "label": "Обʼєм бака",
+      "value": "0,6 л",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 52,
+    "fields": {
+      "equipment": 13,
+      "label": "Тип",
+      "value": "пінна насадка",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 53,
+    "fields": {
+      "equipment": 13,
+      "label": "Регулювання кількості миючого засобу",
+      "value": "",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 48,
+    "fields": {
+      "equipment": 13,
+      "name": "Пінна насадка",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 49,
+    "fields": {
+      "equipment": 13,
+      "name": "Ємність для миючого засобу",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentbadge",
+    "pk": 13,
+    "fields": {
+      "equipment": 13,
+      "label": "Оригінал Karcher",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 52,
+    "fields": {
+      "equipment": 13,
+      "text": "Миття автомобілів",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 53,
+    "fields": {
+      "equipment": 13,
+      "text": "Очищення фасадів",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 54,
+    "fields": {
+      "equipment": 13,
+      "text": "Очищення терас",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 55,
+    "fields": {
+      "equipment": 13,
+      "text": "Нанесення миючого засобу",
+      "order": 4
+    }
+  },
+  {
+    "model": "catalog.equipmentimage",
+    "pk": 16,
+    "fields": {
+      "equipment": 14,
+      "image": "equipment/gallery/wb-130-2.png",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentimage",
+    "pk": 17,
+    "fields": {
+      "equipment": 14,
+      "image": "equipment/gallery/wb-130-3.png",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 54,
+    "fields": {
+      "equipment": 14,
+      "label": "Тип",
+      "value": "щітка для очищення",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 55,
+    "fields": {
+      "equipment": 14,
+      "label": "Обертова щітка",
+      "value": "",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentspec",
+    "pk": 56,
+    "fields": {
+      "equipment": 14,
+      "label": "Підходить для очищення делікатних поверхонь",
+      "value": "",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 50,
+    "fields": {
+      "equipment": 14,
+      "name": "Обертова щітка",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentincludeditem",
+    "pk": 51,
+    "fields": {
+      "equipment": 14,
+      "name": "Розʼєм для підключення до апарата",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentbadge",
+    "pk": 14,
+    "fields": {
+      "equipment": 14,
+      "label": "Оригінал Karcher",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 56,
+    "fields": {
+      "equipment": 14,
+      "text": "Очищення автомобілів",
+      "order": 1
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 57,
+    "fields": {
+      "equipment": 14,
+      "text": "Очищення велосипедів",
+      "order": 2
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 58,
+    "fields": {
+      "equipment": 14,
+      "text": "Очищення меблів",
+      "order": 3
+    }
+  },
+  {
+    "model": "catalog.equipmentusecase",
+    "pk": 59,
+    "fields": {
+      "equipment": 14,
+      "text": "Очищення делікатних поверхонь",
+      "order": 4
+    }
+  }
 ]

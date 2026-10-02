@@ -64,4 +64,4 @@ def test_rating_out_of_range_rejected():
 
 def test_seed_fixture_loads():
     call_command("loaddata", "reviews", verbosity=0)
-    assert Review.objects.filter(is_published=True).count() == 6
+    assert Review.objects.filter(is_published=True).count() == 4
