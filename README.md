@@ -162,7 +162,7 @@ Generated automatically by drf-spectacular:
 | GET | `/api/reviews/` | Published customer reviews, newest first (paginated) |
 | GET | `/api/categories/` | Active equipment categories |
 | GET | `/api/equipment/` | Equipment list — filter by `category`, `city`, `price_min`/`price_max`, `is_popular`, `availability` (`available`/`booked`); search via `search`; sort via `ordering` (`rating` default, `price_per_day`, `name`; `-` prefix for descending); 8 per page. Each item includes `availability: {status, available_from}` |
-| GET | `/api/equipment/{slug}/` | Equipment detail — specs, gallery, included items, benefits, badges, `suitable_for`, `breadcrumbs`, available cities, `availability` |
+| GET | `/api/equipment/{slug}/` | Equipment detail — `model`, specs, gallery, included items, benefits, badges, `suitable_for`, `breadcrumbs`, available cities, `availability` |
 | GET | `/api/equipment/{slug}/availability/?month=YYYY-MM` | Booked dates for that equipment in the given month (defaults to the current month) |
 | GET | `/api/equipment/{slug}/related/?limit=` | "Інша техніка" — same category first, then filled with other active equipment (excludes the item itself); `limit` defaults to 3, capped at 12 |
 | POST | `/api/bookings/quote/` | Price preview for equipment + dates + delivery method, no booking created |
