@@ -86,6 +86,18 @@ def test_sort_by_price_ascending(client, equipment):
     assert [e["slug"] for e in results] == ["karcher-sc-4-deluxe", "karcher-puzzi-8-1"]
 
 
+def test_sort_by_name(client, equipment):
+    """TP250-70: ?ordering=name was ignored and fell back to rating."""
+    by_name = client.get("/api/equipment/?ordering=name").json()["results"]
+    by_name_desc = client.get("/api/equipment/?ordering=-name").json()["results"]
+
+    assert [e["name"] for e in by_name] == ["Karcher Puzzi 8/1", "Karcher SC 4 Deluxe"]
+    assert [e["name"] for e in by_name_desc] == [
+        "Karcher SC 4 Deluxe",
+        "Karcher Puzzi 8/1",
+    ]
+
+
 def test_is_popular_filter(client, equipment):
     results = client.get("/api/equipment/?is_popular=true").json()["results"]
     assert [e["slug"] for e in results] == ["karcher-puzzi-8-1"]

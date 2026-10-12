@@ -75,7 +75,10 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
             OpenApiParameter(
                 "ordering",
                 str,
-                description="`rating` (default, descending) or `price_per_day`.",
+                description=(
+                    "`rating` (default, descending), `price_per_day` or `name`; "
+                    "prefix with `-` for descending."
+                ),
             ),
             OpenApiParameter(
                 "exclude", str, description="A slug to exclude from the results."
@@ -109,7 +112,7 @@ class EquipmentViewSet(viewsets.ReadOnlyModelViewSet):
     pagination_class = EquipmentPagination
     filterset_class = EquipmentFilter
     search_fields = ("name", "sku", "short_description")
-    ordering_fields = ("rating", "price_per_day")
+    ordering_fields = ("rating", "price_per_day", "name")
 
     def get_serializer_class(self):
         """Use the lighter list serializer for ``list``, the full detail
