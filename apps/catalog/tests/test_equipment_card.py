@@ -48,11 +48,33 @@ def test_detail_includes_badges_suitable_for_and_breadcrumbs(client, main_equipm
         "Хімчистки килимового покриття",
         "Хімчистки меблів і салону авто",
     ]
+    # No model set -> the last crumb falls back to the full name.
     assert data["breadcrumbs"] == [
         {"label": "Головна", "url": "/"},
         {"label": "Каталог", "url": "/catalog"},
-        {"label": "Пароочисники", "url": "/catalog?category=steam-cleaners"},
         {"label": "Karcher SC 4 Deluxe", "url": None},
+    ]
+
+
+def test_breadcrumbs_have_three_levels_ending_with_the_model(client, categories):
+    """TP250-76: the site shows "Головна / Каталог / <model>" — no category
+    level and the model rather than the full product name."""
+    equipment = Equipment.objects.create(
+        name="Апарат високого тиску Kärcher HD 6/15",
+        model="Kärcher HD 6/15",
+        slug="karcher-hd-6-15",
+        sku="HD-6-15",
+        category=categories["steam"],
+        price_per_day="700.00",
+    )
+
+    data = client.get(f"/api/equipment/{equipment.slug}/").json()
+
+    assert data["model"] == "Kärcher HD 6/15"
+    assert data["breadcrumbs"] == [
+        {"label": "Головна", "url": "/"},
+        {"label": "Каталог", "url": "/catalog"},
+        {"label": "Kärcher HD 6/15", "url": None},
     ]
 
 
@@ -132,3 +154,20 @@ def test_related_includes_availability(client, main_equipment, categories):
 
 def test_related_404_for_unknown_slug(client):
     assert client.get("/api/equipment/does-not-exist/related/").status_code == 404
+
+
+def test_related_returns_absolute_image_urls(client, main_equipment, categories):
+    """TP250-78: /related/ returned "/media/..." while every other endpoint
+    returned absolute URLs, so images broke on a frontend on another host."""
+    Equipment.objects.create(
+        name="Karcher SC 3",
+        slug="karcher-sc-3",
+        sku="SC-3",
+        category=categories["steam"],
+        price_per_day="600.00",
+        main_image="equipment/sc-3.png",
+    )
+
+    results = client.get(f"/api/equipment/{main_equipment.slug}/related/").json()
+
+    assert results[0]["main_image"] == "http://testserver/media/equipment/sc-3.png"

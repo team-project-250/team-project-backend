@@ -34,7 +34,16 @@ class BookingError(Exception):
 
 class InvalidDateRangeError(BookingError):
     """Raised when a booking's date range is invalid (end before start,
-    or the start date is in the past)."""
+    or the start date is in the past).
+
+    Attributes:
+        field: The request field the error belongs to (``"start_date"`` or
+            ``"end_date"``), so the API can report it under that field.
+    """
+
+    def __init__(self, message: str, field: str):
+        super().__init__(message)
+        self.field = field
 
 
 class EquipmentNotInCityError(BookingError):
@@ -119,10 +128,14 @@ def assert_dates_valid(start_date: date, end_date: date) -> None:
         InvalidDateRangeError: If `end_date` is before `start_date`, or
             `start_date` is before today (Kyiv local date).
     """
-    if end_date < start_date:
-        raise InvalidDateRangeError("Дата завершення не може бути раніше дати початку.")
     if start_date < timezone.localdate():
-        raise InvalidDateRangeError("Дата початку оренди не може бути в минулому.")
+        raise InvalidDateRangeError(
+            "Дата початку оренди не може бути в минулому.", field="start_date"
+        )
+    if end_date < start_date:
+        raise InvalidDateRangeError(
+            "Дата завершення не може бути раніше дати початку.", field="end_date"
+        )
 
 
 def assert_no_overlap(

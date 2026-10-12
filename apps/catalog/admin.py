@@ -81,12 +81,12 @@ class EquipmentAdmin(admin.ModelAdmin):
     )
     list_display_links = ("thumbnail", "name")
     list_filter = ("category", "is_popular", "is_active", "available_cities")
-    search_fields = ("name", "sku")
+    search_fields = ("name", "model", "sku")
     prepopulated_fields = {"slug": ("name",)}
     filter_horizontal = ("available_cities",)
     readonly_fields = ("created_at", "preview")
     fieldsets = (
-        (None, {"fields": ("name", "slug", "sku", "category")}),
+        (None, {"fields": ("name", "model", "slug", "sku", "category")}),
         ("Опис", {"fields": ("short_description", "description")}),
         ("Ціна та рейтинг", {"fields": ("price_per_day", "rating")}),
         ("Показ на сайті", {"fields": ("is_popular", "is_active", "available_cities")}),

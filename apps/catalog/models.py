@@ -32,6 +32,9 @@ class Equipment(models.Model):
     """
 
     name = models.CharField(max_length=200)
+    # Short model designation shown on its own on the card and in the
+    # product page breadcrumbs, e.g. "Kärcher HD 6/15".
+    model = models.CharField(max_length=100, blank=True)
     slug = models.SlugField(max_length=200, unique=True)
     sku = models.CharField("SKU / article", max_length=50, unique=True)
     category = models.ForeignKey(

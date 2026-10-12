@@ -274,7 +274,7 @@ class CallbackRequestCreateView(APIView):
                 **serializer.validated_data
             )
         except InvalidDateRangeError as exc:
-            return Response({"detail": str(exc)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({exc.field: [str(exc)]}, status=status.HTTP_400_BAD_REQUEST)
         except EquipmentNotAvailableError as exc:
             return Response({"detail": str(exc)}, status=status.HTTP_409_CONFLICT)
 

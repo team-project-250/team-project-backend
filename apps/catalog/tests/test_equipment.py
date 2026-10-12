@@ -1,4 +1,5 @@
 import pytest
+from django.db import connection
 
 from apps.catalog.models import Category, Equipment
 from apps.locations.models import City
@@ -86,6 +87,18 @@ def test_sort_by_price_ascending(client, equipment):
     assert [e["slug"] for e in results] == ["karcher-sc-4-deluxe", "karcher-puzzi-8-1"]
 
 
+def test_sort_by_name(client, equipment):
+    """TP250-70: ?ordering=name was ignored and fell back to rating."""
+    by_name = client.get("/api/equipment/?ordering=name").json()["results"]
+    by_name_desc = client.get("/api/equipment/?ordering=-name").json()["results"]
+
+    assert [e["name"] for e in by_name] == ["Karcher Puzzi 8/1", "Karcher SC 4 Deluxe"]
+    assert [e["name"] for e in by_name_desc] == [
+        "Karcher SC 4 Deluxe",
+        "Karcher Puzzi 8/1",
+    ]
+
+
 def test_is_popular_filter(client, equipment):
     results = client.get("/api/equipment/?is_popular=true").json()["results"]
     assert [e["slug"] for e in results] == ["karcher-puzzi-8-1"]
@@ -123,3 +136,33 @@ def test_pagination_page_size_is_8(client, categories):
     data = client.get("/api/equipment/").json()
     assert len(data["results"]) == 8
     assert data["count"] == 10
+
+
+@pytest.mark.skipif(
+    connection.vendor != "postgresql", reason="ICU collation is PostgreSQL-only"
+)
+def test_sort_by_name_follows_the_ukrainian_alphabet(client, categories):
+    """TP250-70 retest: "і" must sort before "р" (Підлогомийна, Пінна,
+    Професійний), whatever the database's default collation is."""
+    for slug, name in [
+        ("pro", "Професійний пилосос"),
+        ("foam", "Пінна насадка"),
+        ("scrubber", "Підлогомийна машина"),
+        ("ak", "Акумуляторна газонокосарка"),
+    ]:
+        Equipment.objects.create(
+            name=name,
+            slug=slug,
+            sku=slug.upper(),
+            category=categories["vacuum"],
+            price_per_day="100.00",
+        )
+
+    results = client.get("/api/equipment/?ordering=name").json()["results"]
+
+    assert [e["name"] for e in results] == [
+        "Акумуляторна газонокосарка",
+        "Підлогомийна машина",
+        "Пінна насадка",
+        "Професійний пилосос",
+    ]

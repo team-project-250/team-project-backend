@@ -1,7 +1,7 @@
 # Development Plan
 
 Step-by-step plan for the Team Project, as required by the *Technical Start: Roadmap for Developers* checklist.
-This document covers **both** repositories — [`team-project-backend`](https://github.com/glor1ee/team-project-backend) and [`team-project-frontend`](https://github.com/glor1ee/team-project-frontend).
+This document covers **both** repositories — [`team-project-backend`](https://github.com/team-project-250/team-project-backend) and [`team-project-frontend`](https://github.com/team-project-250/team-project-frontend).
 
 ---
 
@@ -39,25 +39,24 @@ This document covers **both** repositories — [`team-project-backend`](https://
 
 **Frontend**
 
-- [ ] Set up routing (React Router)
-- [ ] Application layout: header, navigation, content area, footer
-- [ ] Global state approach agreed (Context / Zustand / Redux Toolkit)
-- [ ] Base API client with typed responses and error handling
+- [x] Set up routing (React Router)
+- [x] Application layout: header, navigation, content area, footer
+- [x] Global state approach agreed (React Context)
+- [ ] Base API client with typed responses and error handling (`src/api/client.ts` exists, not used by the pages yet)
 
 **Definition of done:** the frontend renders a real layout and fetches real data from a database-backed endpoint.
 
 ---
 
-## Stage 2 — Authentication
+## Stage 2 — Authentication ✅ (decided: no customer accounts)
 
-- [ ] Backend: staff auth via the Django admin (customers are identified by phone, no account)
-- [ ] Backend: decide if any public endpoint needs auth; if so, add DRF token/JWT auth
-- [ ] Backend: DRF permission classes on protected endpoints + tests
-- [ ] Frontend: registration and login pages with form validation
-- [ ] Frontend: token storage, auth context, automatic refresh
-- [ ] Frontend: protected routes and a redirect for unauthenticated users
+Renting doesn't need an account: a customer books with a name, phone and e-mail,
+and later finds or cancels the booking by phone + booking number. So there is no
+customer registration/login, and the frontend needs no auth pages.
 
-**Definition of done:** a user can register, log in, stay logged in after a page reload, and log out.
+- [x] Backend: staff auth via the Django admin
+- [x] Backend: public endpoints stay anonymous; the phone-based ones are rate-limited instead
+- [x] Frontend: no login/registration needed
 
 ---
 
@@ -83,6 +82,27 @@ Feature backlog (equipment-rental service) — see [`docs/BACKEND_ROADMAP.md`](d
 - [x] Editable home-page content — hero, about, rental steps/terms, site settings, all managed in the admin
 - [x] Home aggregator — `GET /api/home/` for a single landing-page fetch
 - [x] Card page backend — badges, per-product "suitable for", breadcrumbs, related equipment, delivery/payment content, hardened quick-booking (phone format, date conflict, duplicates)
+
+---
+
+## Stage 3b — Connect the frontend to the API ⏳ (next)
+
+The site is a finished UI but still reads everything from `src/data/*.ts` mock
+files and keeps bookings in browser memory. Each screen switches to the API in its
+own PR:
+
+- [ ] API client + types generated from / matching the OpenAPI schema (`/api/schema/`)
+- [ ] Cities and pickup points → `GET /api/cities/`
+- [ ] Catalog and filters → `GET /api/categories/`, `GET /api/equipment/`
+- [ ] Product page → `GET /api/equipment/{slug}/`, `/related/`, `/availability/`
+- [ ] Booking form → `POST /api/bookings/quote/` and `POST /api/bookings/` (handle 400 / 409)
+- [ ] "1-click" booking → `POST /api/callback-requests/`
+- [ ] Home page content and reviews → `GET /api/home/`
+- [ ] "My bookings" page → `GET /api/bookings/?phone=`, `POST /api/bookings/{number}/cancel/`
+- [ ] Remove the mock data files and the old `/api/hello` sanity call
+
+**Definition of done:** the site shows what the admin panel contains, and a booking
+made on the site appears in the admin.
 
 ---
 

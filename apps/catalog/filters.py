@@ -1,5 +1,9 @@
 import django_filters
+from django.db import connections
+from django.db.models import F
+from django.db.models.functions import Collate
 from django.utils import timezone
+from rest_framework.filters import OrderingFilter
 
 from apps.bookings.models import Booking
 from apps.catalog.models import Equipment
@@ -79,3 +83,42 @@ class EquipmentFilter(django_filters.FilterSet):
         if value == "available":
             return queryset.exclude(id__in=booked_ids)
         return queryset
+
+
+class EquipmentOrderingFilter(OrderingFilter):
+    """``?ordering=`` for the catalog, with ``name`` sorted by the Ukrainian
+    alphabet on PostgreSQL.
+
+    A plain ``ORDER BY name`` follows the database's collation; with a
+    ``C``/byte-wise collation "і" (U+0456) sorts after "р", so
+    "Професійний…" came before "Підлогомийна…" and "Пінна…". The ICU
+    collation below orders Ukrainian text correctly whatever the database
+    default is. Other backends (SQLite in tests) keep their own ordering.
+    """
+
+    NAME_COLLATION = "uk-x-icu"
+
+    def get_ordering(self, request, queryset, view):
+        """Return the requested ordering, collating ``name`` on PostgreSQL.
+
+        Args:
+            request: The incoming request.
+            queryset: The queryset being ordered.
+            view: The view being filtered.
+
+        Returns:
+            The ordering terms: field names, plus a collated expression in
+            place of ``name`` / ``-name`` on PostgreSQL.
+        """
+        ordering = super().get_ordering(request, queryset, view)
+        if not ordering or connections[queryset.db].vendor != "postgresql":
+            return ordering
+
+        terms = []
+        for term in ordering:
+            if term.lstrip("-") != "name":
+                terms.append(term)
+                continue
+            collated = Collate(F("name"), self.NAME_COLLATION)
+            terms.append(collated.desc() if term.startswith("-") else collated.asc())
+        return terms

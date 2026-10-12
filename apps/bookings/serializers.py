@@ -1,9 +1,15 @@
 from rest_framework import serializers
 
-from apps.bookings.models import Booking, CallbackRequest, ukrainian_phone_validator
+from apps.bookings.models import (
+    Booking,
+    CallbackRequest,
+    customer_name_validator,
+    ukrainian_phone_validator,
+)
 from apps.bookings.services import (
     BookingError,
     EquipmentNotAvailableError,
+    EquipmentNotInCityError,
     InvalidDateRangeError,
     assert_dates_valid,
     create_booking,
@@ -55,7 +61,9 @@ class BookingCreateSerializer(serializers.Serializer):
     city = serializers.SlugRelatedField(
         slug_field="slug", queryset=City.objects.filter(is_active=True)
     )
-    customer_name = serializers.CharField(max_length=150)
+    customer_name = serializers.CharField(
+        max_length=150, validators=[customer_name_validator]
+    )
     customer_phone = serializers.CharField(
         max_length=20, validators=[ukrainian_phone_validator]
     )
@@ -112,6 +120,10 @@ class BookingCreateSerializer(serializers.Serializer):
             # A date conflict is a 409, not a validation error — the view
             # maps it, matching the callback-request endpoint.
             raise
+        except InvalidDateRangeError as exc:
+            raise serializers.ValidationError({exc.field: [str(exc)]}) from exc
+        except EquipmentNotInCityError as exc:
+            raise serializers.ValidationError({"city": [str(exc)]}) from exc
         except BookingError as exc:
             raise serializers.ValidationError({"detail": str(exc)}) from exc
 
@@ -158,7 +170,7 @@ class BookingQuoteSerializer(serializers.Serializer):
         try:
             assert_dates_valid(attrs["start_date"], attrs["end_date"])
         except InvalidDateRangeError as exc:
-            raise serializers.ValidationError({"end_date": str(exc)}) from exc
+            raise serializers.ValidationError({exc.field: [str(exc)]}) from exc
         return attrs
 
 

@@ -2,6 +2,7 @@ import calendar
 from datetime import date, timedelta
 
 from django.utils import timezone
+from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import (
     OpenApiExample,
     OpenApiParameter,
@@ -10,10 +11,11 @@ from drf_spectacular.utils import (
 )
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
+from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
 
 from apps.bookings.models import Booking
-from apps.catalog.filters import EquipmentFilter
+from apps.catalog.filters import EquipmentFilter, EquipmentOrderingFilter
 from apps.catalog.models import Category, Equipment
 from apps.catalog.pagination import EquipmentPagination
 from apps.catalog.serializers import (
@@ -75,7 +77,10 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
             OpenApiParameter(
                 "ordering",
                 str,
-                description="`rating` (default, descending) or `price_per_day`.",
+                description=(
+                    "`rating` (default, descending), `price_per_day` or `name`; "
+                    "prefix with `-` for descending."
+                ),
             ),
             OpenApiParameter(
                 "exclude", str, description="A slug to exclude from the results."
@@ -107,9 +112,10 @@ class EquipmentViewSet(viewsets.ReadOnlyModelViewSet):
     )
     lookup_field = "slug"
     pagination_class = EquipmentPagination
+    filter_backends = [DjangoFilterBackend, SearchFilter, EquipmentOrderingFilter]
     filterset_class = EquipmentFilter
-    search_fields = ("name", "sku", "short_description")
-    ordering_fields = ("rating", "price_per_day")
+    search_fields = ("name", "model", "sku", "short_description")
+    ordering_fields = ("rating", "price_per_day", "name")
 
     def get_serializer_class(self):
         """Use the lighter list serializer for ``list``, the full detail
@@ -306,5 +312,7 @@ class EquipmentViewSet(viewsets.ReadOnlyModelViewSet):
 
         items = related_equipment(equipment, limit=limit)
         annotate_availability(items, timezone.localdate())
-        serializer = EquipmentListSerializer(items, many=True)
+        serializer = EquipmentListSerializer(
+            items, many=True, context=self.get_serializer_context()
+        )
         return Response(serializer.data)
