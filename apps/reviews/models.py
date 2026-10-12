@@ -3,9 +3,6 @@ from django.db import models
 
 
 class Review(models.Model):
-    """A customer review shown on the home page carousel once moderated
-    (``is_published=True``) by staff via the Django admin."""
-
     author_name = models.CharField(max_length=120)
     avatar = models.ImageField(upload_to="reviews/", blank=True)
     rating = models.PositiveSmallIntegerField(
@@ -22,5 +19,4 @@ class Review(models.Model):
         verbose_name_plural = "reviews"
 
     def __str__(self):
-        """Return "<author> (<rating>/5)", used in the Django admin list."""
         return f"{self.author_name} ({self.rating}/5)"

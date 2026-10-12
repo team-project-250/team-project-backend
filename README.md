@@ -1,34 +1,11 @@
-# EasyRent — Backend
+# Team Project — Backend
 
-REST API for **EasyRent**, a cleaning-equipment rental service (Kärcher pressure
-washers, vacuums, floor scrubbers and more in Lutsk, Lviv, Kyiv and Odesa), built
-with **Django + Django REST Framework**.
+REST API for the Team Project — an equipment-rental service — built with **Django + Django REST Framework**.
 
-The project lives in **two repositories**:
+Frontend repository: [`team-project-frontend`](https://github.com/glor1ee/team-project-frontend)
 
-| Repository | What it is | Links |
-| --- | --- | --- |
-| **team-project-backend** (this repo) | Django REST API, admin panel, PostgreSQL | Swagger UI at `/api/docs/` once running locally (not deployed yet) |
-| [**team-project-frontend**](https://github.com/team-project-250/team-project-frontend) | React + TypeScript site | Live demo: <https://team-project-250.github.io/team-project-frontend/> |
-
-## Project status
-
-| Feature | Backend API | Frontend site |
-| --- | --- | --- |
-| Catalog: categories, filters, search, sorting, pagination | ✅ `GET /api/equipment/` | ✅ UI, data from local mock files |
-| Product page: specs, gallery, "suitable for", related items | ✅ `GET /api/equipment/{slug}/` | ✅ UI, data from local mock files |
-| Availability calendar | ✅ `GET /api/equipment/{slug}/availability/` | ✅ UI, availability from mock dates |
-| Booking with price calculation and conflict check | ✅ `POST /api/bookings/` | ✅ form; the booking is kept in the browser only |
-| "1-click" callback request | ✅ `POST /api/callback-requests/` | ❌ not connected |
-| "My bookings": lookup and cancel by phone | ✅ `GET /api/bookings/?phone=` | ❌ no page yet |
-| Home page content, reviews, cities | ✅ `GET /api/home/` + admin-editable | ✅ UI, content from local mock files |
-| Admin panel for managers | ✅ `/admin/` | — |
-
-**In short:** the API is feature-complete and covered by tests; the site is a
-finished UI that still runs on mock data. **Connecting the site to the API is the
-next step** (see [`DEVELOPMENT_PLAN.md`](DEVELOPMENT_PLAN.md)). The demo data
-(`python manage.py seed_demo`) is the same catalog, cities and reviews the site
-shows, so both describe the same products.
+> 🚧 **Status:** migrating the backend from FastAPI to Django + DRF.
+> The scaffold is being built stage by stage — see [`DEVELOPMENT_PLAN.md`](DEVELOPMENT_PLAN.md), Stage 1.
 
 ---
 
@@ -48,7 +25,6 @@ shows, so both describe the same products.
 | Tests | pytest + pytest-django + pytest-cov |
 | Lint / format | Ruff |
 | Type checking | mypy |
-| Image handling | Pillow |
 | Hooks | pre-commit |
 | CI | GitHub Actions |
 | Deploy | Render |
@@ -60,7 +36,7 @@ shows, so both describe the same products.
 ### 1. Clone and enter the project
 
 ```bash
-git clone https://github.com/team-project-250/team-project-backend.git
+git clone https://github.com/glor1ee/team-project-backend.git
 cd team-project-backend
 ```
 
@@ -116,20 +92,6 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
-### 6a. Load demo data (optional)
-
-```bash
-python manage.py seed_demo
-```
-
-Loads the same catalog (14 products in 7 categories), cities, pickup points and
-reviews the site shows, plus the home/product-page content and three demo
-bookings, and downloads the product photos from the live site into `media/`.
-Safe to run repeatedly.
-
-- `--skip-images` — don't download photos (e.g. offline)
-- `--reset` — also drop reviews left over from older demo data
-
 ### 7. Run the server
 
 ```bash
@@ -160,29 +122,6 @@ Generated automatically by drf-spectacular:
 | GET | `/api/cities/` | List of active service cities with pickup point info |
 | GET | `/api/cities/{slug}/` | Single city detail |
 | GET | `/api/reviews/` | Published customer reviews, newest first (paginated) |
-| GET | `/api/categories/` | Active equipment categories |
-| GET | `/api/equipment/` | Equipment list — filter by `category`, `city`, `price_min`/`price_max`, `is_popular`, `availability` (`available`/`booked`); search via `search`; sort via `ordering` (`rating` default, `price_per_day`, `name`; `-` prefix for descending); 8 per page. Each item includes `availability: {status, available_from}` |
-| GET | `/api/equipment/{slug}/` | Equipment detail — `model`, specs, gallery, included items, benefits, badges, `suitable_for`, `breadcrumbs`, available cities, `availability` |
-| GET | `/api/equipment/{slug}/availability/?month=YYYY-MM` | Booked dates for that equipment in the given month (defaults to the current month) |
-| GET | `/api/equipment/{slug}/related/?limit=` | "Інша техніка" — same category first, then filled with other active equipment (excludes the item itself); `limit` defaults to 3, capped at 12 |
-| POST | `/api/bookings/quote/` | Price preview for equipment + dates + delivery method, no booking created |
-| POST | `/api/bookings/` | Create a booking — requires `customer_name`, `customer_phone` (`+380XXXXXXXXX`), `customer_email`, dates, delivery/payment method; server computes the price and checks availability. 400 for invalid input, 409 if the equipment is already booked for those dates. Throttled to 10/hour per IP. |
-| GET | `/api/bookings/?phone=` | List that phone number's bookings, newest first (`phone` is required). Throttled to 30/hour per IP. |
-| POST | `/api/bookings/{number}/cancel/` | Cancel a booking — body `{"phone": "..."}` must match; only `pending`/`confirmed` bookings with a future start date can be cancelled. Throttled to 10/hour per IP. |
-| POST | `/api/callback-requests/` | "1-click" booking (a lead, not a reservation) — phone (`+380XXXXXXXXX`) + optional equipment/dates. 400 for bad phone/dates, 409 for a date conflict on the given equipment, 200 (not 201) if an identical unprocessed request already exists. Throttled to 5/hour per IP. |
-| GET | `/api/content/hero/` | Home page hero section (title, subtitle, CTA, background image) — editable in admin |
-| GET | `/api/content/about/` | "About EasyRent" section with its ordered feature list |
-| GET | `/api/content/rental-steps/` | "How to rent" steps, active ones only, ordered |
-| GET | `/api/content/rental-terms/` | "Rental terms" cards, active ones only, ordered |
-| GET | `/api/content/delivery-payment/` | "Доставка і оплата" tab content on the product page (global, same for every product) |
-| GET | `/api/content/settings/` | Company/bank details shown after choosing the IBAN transfer payment method |
-| GET | `/api/home/` | Aggregates hero, about, rental steps/terms, settings, cities, categories, popular equipment and reviews into one response for the landing page |
-
-Content sections (hero, about, rental steps/terms, delivery/payment, site settings)
-are all editable through the Django admin, so once the frontend is connected to the
-API nothing on the home or product page needs to be hardcoded there.
-`HeroSection`, `AboutSection` and `SiteSettings` are singletons (the admin hides
-"Add" once a row exists).
 
 See [`docs/BACKEND_ROADMAP.md`](docs/BACKEND_ROADMAP.md) for the full planned API.
 
@@ -197,15 +136,12 @@ See [`docs/BACKEND_ROADMAP.md`](docs/BACKEND_ROADMAP.md) for the full planned AP
 | `DEBUG` | `True` | Debug mode — never `True` in production |
 | `DATABASE_URL` | `postgres://postgres:postgres@localhost:5432/easyrent` | PostgreSQL connection string |
 | `CORS_ORIGINS` | `http://localhost:5173` | Comma-separated list of allowed frontend origins |
-| `DJANGO_LOG_LEVEL` | `INFO` | Root logger level; `django.db.backends` is always capped at `WARNING` regardless, to keep SQL query logs out |
-| `AWS_STORAGE_BUCKET_NAME` (+ `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, optional `AWS_S3_ENDPOINT_URL`, `AWS_S3_REGION_NAME`, `AWS_S3_CUSTOM_DOMAIN`) | `easyrent-media` | Production: S3-compatible bucket (AWS S3, Cloudflare R2, …) for uploaded images. Unset, uploads go to local disk, which Render wipes on every deploy |
-| `NUM_PROXIES` | `1` | Production: reverse proxies in front of the app. Rate limiting takes the client IP from `X-Forwarded-For` using this; unset, the limits can be bypassed by spoofing the header |
 
 All variables are documented in [`.env.example`](.env.example).
 
 ---
 
-## Project structure
+## Project structure (target)
 
 ```
 team-project-backend/
@@ -218,21 +154,14 @@ team-project-backend/
 │   ├── wsgi.py
 │   └── asgi.py
 ├── apps/
-│   ├── catalog/        # categories, equipment, specs, badges, availability
-│   ├── bookings/       # bookings, quick-booking (callback requests), pricing
-│   ├── locations/      # cities/pickup points + the seed_demo command
-│   ├── reviews/        # customer reviews (moderated)
-│   └── content/        # editable home/product-page content + /api/home/
-│       # each app: models.py / serializers.py / views.py / urls.py / admin.py,
-│       # most also have services.py, fixtures/ and tests/
-├── docs/
-│   └── BACKEND_ROADMAP.md      # full milestone-by-milestone API plan
-├── tests/                       # project-level smoke tests
+│   ├── catalog/                # equipment, categories, cities, specs
+│   └── bookings/               # rentals, availability, price calculation
+│       └── services.py         # business logic (kept out of views)
+├── tests/
 ├── manage.py
 ├── requirements.txt            # runtime dependencies
 ├── requirements-dev.txt        # + test & lint tooling
 ├── pyproject.toml              # tool configuration (ruff, mypy, pytest)
-├── docker-compose.yml          # local PostgreSQL for development
 └── render.yaml                 # Render deployment blueprint
 ```
 
@@ -319,5 +248,5 @@ Keep the history clean — one logical change per commit.
 
 | Name | Role | GitHub |
 | --- | --- | --- |
-| Taras Mosiichuk | Backend | [@tarasmosiichuk01-ship-it](https://github.com/tarasmosiichuk01-ship-it) |
-| Alexey Kravets | Frontend | [@kravets111](https://github.com/kravets111) |
+| _TBD_ | Backend | [@username](https://github.com/username) |
+| _TBD_ | Frontend | [@username](https://github.com/username) |
