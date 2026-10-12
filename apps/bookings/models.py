@@ -9,6 +9,14 @@ ukrainian_phone_validator = RegexValidator(
     message="Введіть номер у форматі +380XXXXXXXXX.",
 )
 
+# Letters (any alphabet) in one or more words joined by a space, hyphen or
+# apostrophe: "Іван Петренко", "Анна-Марія", "Дар'я". Rejects digits-only or
+# symbol-only names like "12345".
+customer_name_validator = RegexValidator(
+    regex=r"^[^\W\d_]+(?:[ '’ʼ-][^\W\d_]+)*$",
+    message="Введіть ім'я та прізвище літерами, без цифр і спецсимволів.",
+)
+
 
 class Booking(models.Model):
     """A rental booking: dates, customer contact info, delivery/payment
@@ -46,7 +54,9 @@ class Booking(models.Model):
     )
     city = models.ForeignKey(City, on_delete=models.PROTECT, related_name="bookings")
 
-    customer_name = models.CharField(max_length=150)
+    customer_name = models.CharField(
+        max_length=150, validators=[customer_name_validator]
+    )
     customer_phone = models.CharField(
         max_length=20, validators=[ukrainian_phone_validator]
     )

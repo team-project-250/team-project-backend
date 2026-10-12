@@ -220,3 +220,39 @@ def test_create_booking_reports_date_errors_per_field(client, equipment, city):
     response = client.post("/api/bookings/", payload, content_type="application/json")
     assert response.status_code == 400
     assert list(response.json()) == ["end_date"]
+
+
+@pytest.mark.parametrize("name", ["12345", "Іван1", "!!!", "Іван_Петренко"])
+def test_create_booking_rejects_name_without_letters(client, equipment, city, name):
+    """TP250-71: a digits-only (or otherwise non-name) customer_name is a 400."""
+    payload = {
+        "equipment": equipment.slug,
+        "city": city.slug,
+        "customer_name": name,
+        "customer_phone": "+380501112233",
+        "customer_email": "test@example.com",
+        "start_date": today_plus(1),
+        "end_date": today_plus(2),
+        "delivery_method": "pickup",
+        "payment_method": "cash",
+    }
+    response = client.post("/api/bookings/", payload, content_type="application/json")
+    assert response.status_code == 400
+    assert "customer_name" in response.json()
+
+
+@pytest.mark.parametrize("name", ["Іван", "Іван Петренко", "Анна-Марія", "Дар'я"])
+def test_create_booking_accepts_real_names(client, equipment, city, name):
+    payload = {
+        "equipment": equipment.slug,
+        "city": city.slug,
+        "customer_name": name,
+        "customer_phone": "+380501112233",
+        "customer_email": "test@example.com",
+        "start_date": today_plus(1),
+        "end_date": today_plus(1),
+        "delivery_method": "pickup",
+        "payment_method": "cash",
+    }
+    response = client.post("/api/bookings/", payload, content_type="application/json")
+    assert response.status_code == 201
