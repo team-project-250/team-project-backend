@@ -306,5 +306,7 @@ class EquipmentViewSet(viewsets.ReadOnlyModelViewSet):
 
         items = related_equipment(equipment, limit=limit)
         annotate_availability(items, timezone.localdate())
-        serializer = EquipmentListSerializer(items, many=True)
+        serializer = EquipmentListSerializer(
+            items, many=True, context=self.get_serializer_context()
+        )
         return Response(serializer.data)
