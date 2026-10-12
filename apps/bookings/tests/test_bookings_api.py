@@ -194,3 +194,29 @@ def test_quote_rejects_past_start(client, equipment):
         "/api/bookings/quote/", payload, content_type="application/json"
     )
     assert response.status_code == 400
+    # TP250-77: reported under start_date, not end_date.
+    assert response.json() == {
+        "start_date": ["Дата початку оренди не може бути в минулому."]
+    }
+
+
+def test_create_booking_reports_date_errors_per_field(client, equipment, city):
+    payload = {
+        "equipment": equipment.slug,
+        "city": city.slug,
+        "customer_name": "Іван Петренко",
+        "customer_phone": "+380501234567",
+        "customer_email": "ivan@example.com",
+        "start_date": today_plus(-1),
+        "end_date": today_plus(2),
+        "delivery_method": "pickup",
+        "payment_method": "cash",
+    }
+    response = client.post("/api/bookings/", payload, content_type="application/json")
+    assert response.status_code == 400
+    assert list(response.json()) == ["start_date"]
+
+    payload["start_date"], payload["end_date"] = today_plus(5), today_plus(3)
+    response = client.post("/api/bookings/", payload, content_type="application/json")
+    assert response.status_code == 400
+    assert list(response.json()) == ["end_date"]

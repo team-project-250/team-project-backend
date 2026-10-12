@@ -101,6 +101,7 @@ def test_past_start_date_rejected(client, equipment):
         content_type="application/json",
     )
     assert response.status_code == 400
+    assert list(response.json()) == ["start_date"]
 
 
 def test_date_conflict_returns_409(client, equipment):

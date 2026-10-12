@@ -4,6 +4,7 @@ from apps.bookings.models import Booking, CallbackRequest, ukrainian_phone_valid
 from apps.bookings.services import (
     BookingError,
     EquipmentNotAvailableError,
+    EquipmentNotInCityError,
     InvalidDateRangeError,
     assert_dates_valid,
     create_booking,
@@ -112,6 +113,10 @@ class BookingCreateSerializer(serializers.Serializer):
             # A date conflict is a 409, not a validation error — the view
             # maps it, matching the callback-request endpoint.
             raise
+        except InvalidDateRangeError as exc:
+            raise serializers.ValidationError({exc.field: [str(exc)]}) from exc
+        except EquipmentNotInCityError as exc:
+            raise serializers.ValidationError({"city": [str(exc)]}) from exc
         except BookingError as exc:
             raise serializers.ValidationError({"detail": str(exc)}) from exc
 
@@ -158,7 +163,7 @@ class BookingQuoteSerializer(serializers.Serializer):
         try:
             assert_dates_valid(attrs["start_date"], attrs["end_date"])
         except InvalidDateRangeError as exc:
-            raise serializers.ValidationError({"end_date": str(exc)}) from exc
+            raise serializers.ValidationError({exc.field: [str(exc)]}) from exc
         return attrs
 
 
