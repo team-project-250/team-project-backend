@@ -2,6 +2,7 @@ import calendar
 from datetime import date, timedelta
 
 from django.utils import timezone
+from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import (
     OpenApiExample,
     OpenApiParameter,
@@ -10,10 +11,11 @@ from drf_spectacular.utils import (
 )
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
+from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
 
 from apps.bookings.models import Booking
-from apps.catalog.filters import EquipmentFilter
+from apps.catalog.filters import EquipmentFilter, EquipmentOrderingFilter
 from apps.catalog.models import Category, Equipment
 from apps.catalog.pagination import EquipmentPagination
 from apps.catalog.serializers import (
@@ -110,6 +112,7 @@ class EquipmentViewSet(viewsets.ReadOnlyModelViewSet):
     )
     lookup_field = "slug"
     pagination_class = EquipmentPagination
+    filter_backends = [DjangoFilterBackend, SearchFilter, EquipmentOrderingFilter]
     filterset_class = EquipmentFilter
     search_fields = ("name", "model", "sku", "short_description")
     ordering_fields = ("rating", "price_per_day", "name")
