@@ -2,10 +2,6 @@ from django.db import models
 
 
 class City(models.Model):
-    """A service city with its pickup point, shown in the header/footer
-    city selector and used to scope equipment availability
-    (``Equipment.available_cities``) and bookings (``Booking.city``)."""
-
     name = models.CharField(max_length=64, unique=True)
     slug = models.SlugField(max_length=64, unique=True)
     is_default = models.BooleanField(default=False)
@@ -23,17 +19,10 @@ class City(models.Model):
         verbose_name_plural = "cities"
 
     def __str__(self):
-        """Return the city name, used e.g. in the Django admin list view."""
         return self.name
 
     def save(self, *args, **kwargs):
-        """Save the city, demoting any other city currently flagged
-        ``is_default`` so at most one city stays default.
-
-        Args:
-            *args: Forwarded to ``models.Model.save``.
-            **kwargs: Forwarded to ``models.Model.save``.
-        """
+        # Keep exactly one default city.
         if self.is_default:
             City.objects.filter(is_default=True).exclude(pk=self.pk).update(
                 is_default=False
