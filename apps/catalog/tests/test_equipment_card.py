@@ -132,3 +132,20 @@ def test_related_includes_availability(client, main_equipment, categories):
 
 def test_related_404_for_unknown_slug(client):
     assert client.get("/api/equipment/does-not-exist/related/").status_code == 404
+
+
+def test_related_returns_absolute_image_urls(client, main_equipment, categories):
+    """TP250-78: /related/ returned "/media/..." while every other endpoint
+    returned absolute URLs, so images broke on a frontend on another host."""
+    Equipment.objects.create(
+        name="Karcher SC 3",
+        slug="karcher-sc-3",
+        sku="SC-3",
+        category=categories["steam"],
+        price_per_day="600.00",
+        main_image="equipment/sc-3.png",
+    )
+
+    results = client.get(f"/api/equipment/{main_equipment.slug}/related/").json()
+
+    assert results[0]["main_image"] == "http://testserver/media/equipment/sc-3.png"

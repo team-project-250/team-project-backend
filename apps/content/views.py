@@ -193,27 +193,30 @@ class HomePageView(APIView):
         )
         annotate_availability(popular_equipment, timezone.localdate())
 
+        # The request in the context makes image fields render absolute URLs,
+        # same as the standalone endpoints.
+        ctx = {"request": request}
         data = {
-            "hero": HeroSectionSerializer(HeroSection.load()).data,
-            "about": AboutSectionSerializer(AboutSection.load()).data,
+            "hero": HeroSectionSerializer(HeroSection.load(), context=ctx).data,
+            "about": AboutSectionSerializer(AboutSection.load(), context=ctx).data,
             "rental_steps": RentalStepSerializer(
-                RentalStep.objects.filter(is_active=True), many=True
+                RentalStep.objects.filter(is_active=True), many=True, context=ctx
             ).data,
             "rental_terms": RentalTermSerializer(
-                RentalTerm.objects.filter(is_active=True), many=True
+                RentalTerm.objects.filter(is_active=True), many=True, context=ctx
             ).data,
-            "settings": SiteSettingsSerializer(SiteSettings.load()).data,
+            "settings": SiteSettingsSerializer(SiteSettings.load(), context=ctx).data,
             "cities": CitySerializer(
-                City.objects.filter(is_active=True), many=True
+                City.objects.filter(is_active=True), many=True, context=ctx
             ).data,
             "categories": CategorySerializer(
-                Category.objects.filter(is_active=True), many=True
+                Category.objects.filter(is_active=True), many=True, context=ctx
             ).data,
             "popular_equipment": EquipmentListSerializer(
-                popular_equipment, many=True
+                popular_equipment, many=True, context=ctx
             ).data,
             "reviews": ReviewSerializer(
-                Review.objects.filter(is_published=True)[:6], many=True
+                Review.objects.filter(is_published=True)[:6], many=True, context=ctx
             ).data,
         }
         return Response(data)

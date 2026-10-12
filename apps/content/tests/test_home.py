@@ -93,3 +93,38 @@ def test_home_limits_popular_equipment_and_reviews(client):
     data = client.get("/api/home/").json()
     assert len(data["popular_equipment"]) == 8
     assert len(data["reviews"]) == 6
+
+
+def test_home_returns_absolute_image_urls(client):
+    """TP250-78: popular equipment, reviews and the hero image on /api/home/
+    came back as "/media/..." instead of absolute URLs."""
+    HeroSection.objects.create(title="Оренда техніки", background_image="hero/bg.jpg")
+    category = Category.objects.create(name="Пилососи", slug="vacuum-cleaners")
+    Equipment.objects.create(
+        name="Popular",
+        slug="popular",
+        sku="POP-1",
+        category=category,
+        price_per_day="500.00",
+        is_popular=True,
+        main_image="equipment/popular.png",
+    )
+    Review.objects.create(
+        author_name="Іван",
+        rating=5,
+        text="Добре",
+        published_on="2026-01-01",
+        is_published=True,
+        avatar="reviews/avatar-1.png",
+    )
+
+    data = client.get("/api/home/").json()
+
+    assert data["hero"]["background_image"] == "http://testserver/media/hero/bg.jpg"
+    assert (
+        data["popular_equipment"][0]["main_image"]
+        == "http://testserver/media/equipment/popular.png"
+    )
+    assert (
+        data["reviews"][0]["avatar"] == "http://testserver/media/reviews/avatar-1.png"
+    )
