@@ -44,6 +44,7 @@ class EquipmentListSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "name",
+            "model",
             "slug",
             "category",
             "price_per_day",
@@ -126,6 +127,7 @@ class EquipmentDetailSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "name",
+            "model",
             "slug",
             "sku",
             "category",
@@ -168,12 +170,9 @@ class EquipmentDetailSerializer(serializers.ModelSerializer):
             home page down to the equipment itself (whose ``url`` is
             ``None``, since it's the current page).
         """
+        # Same three levels as the site: Головна / Каталог / <model>.
         return [
             {"label": "Головна", "url": "/"},
             {"label": "Каталог", "url": "/catalog"},
-            {
-                "label": obj.category.name,
-                "url": f"/catalog?category={obj.category.slug}",
-            },
-            {"label": obj.name, "url": None},
+            {"label": obj.model or obj.name, "url": None},
         ]

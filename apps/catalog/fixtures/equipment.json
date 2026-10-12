@@ -4,6 +4,7 @@
     "pk": 1,
     "fields": {
       "name": "Апарат високого тиску Kärcher HD 6/15",
+      "model": "Kärcher HD 6/15",
       "slug": "karcher-hd-6-15",
       "sku": "HD-6-15",
       "category": 7,
@@ -27,6 +28,7 @@
     "pk": 2,
     "fields": {
       "name": "Апарат високого тиску Kärcher HD 10/25-4 S",
+      "model": "Kärcher HD 10/25-4 S",
       "slug": "karcher-hd-10-25-4-s",
       "sku": "HD-10-25-4-S",
       "category": 7,
@@ -49,6 +51,7 @@
     "pk": 3,
     "fields": {
       "name": "Професійний пилосос Kärcher NT 35/1 Ap",
+      "model": "Kärcher NT 35/1 Ap",
       "slug": "karcher-nt-35-1-ap",
       "sku": "NT-35-1-AP",
       "category": 2,
@@ -72,6 +75,7 @@
     "pk": 4,
     "fields": {
       "name": "Професійний пилосос Kärcher NT 65/2 Eco",
+      "model": "Kärcher NT 65/2 Eco",
       "slug": "karcher-nt-65-2-eco",
       "sku": "NT-65-2-ECO",
       "category": 2,
@@ -94,6 +98,7 @@
     "pk": 5,
     "fields": {
       "name": "Миючий пилосос Kärcher Puzzi 10/1",
+      "model": "Kärcher Puzzi 10/1",
       "slug": "karcher-puzzi-10-1",
       "sku": "PUZZI-10-1",
       "category": 4,
@@ -117,6 +122,7 @@
     "pk": 6,
     "fields": {
       "name": "Миючий пилосос Kärcher Puzzi 8/1 C",
+      "model": "Kärcher Puzzi 8/1 C",
       "slug": "karcher-puzzi-8-1-c",
       "sku": "PUZZI-8-1-C",
       "category": 4,
@@ -139,6 +145,7 @@
     "pk": 7,
     "fields": {
       "name": "Підлогомийна машина Kärcher BD 50/60 C Ep Classic",
+      "model": "Kärcher BD 50/60 C Ep Classic",
       "slug": "karcher-bd-50-60-c-ep-classic",
       "sku": "BD-50-60-C-EP-CLASSIC",
       "category": 1,
@@ -161,6 +168,7 @@
     "pk": 8,
     "fields": {
       "name": "Підлогомийна машина Kärcher BD 43/35 C Ep",
+      "model": "Kärcher BD 43/35 C Ep",
       "slug": "karcher-bd-43-35-c-ep",
       "sku": "BD-43-35-C-EP",
       "category": 1,
@@ -184,6 +192,7 @@
     "pk": 9,
     "fields": {
       "name": "Пароочисник Kärcher SG 4/4",
+      "model": "Kärcher SG 4/4",
       "slug": "karcher-sg-4-4",
       "sku": "SG-4-4",
       "category": 3,
@@ -207,6 +216,7 @@
     "pk": 10,
     "fields": {
       "name": "Пароочисник Kärcher SC 4 EasyFix",
+      "model": "Kärcher SC 4 EasyFix",
       "slug": "karcher-sc-4-easyfix",
       "sku": "SC-4-EASYFIX",
       "category": 3,
@@ -229,6 +239,7 @@
     "pk": 11,
     "fields": {
       "name": "Акумуляторна газонокосарка Kärcher LMO 18-33 Battery Set",
+      "model": "Kärcher LMO 18-33 Battery Set",
       "slug": "karcher-lmo-18-33-battery-set",
       "sku": "LMO-18-33-BATTERY-SET",
       "category": 5,
@@ -253,6 +264,7 @@
     "pk": 12,
     "fields": {
       "name": "Акумуляторна газонокосарка Kärcher LMO 18-36 Battery Set",
+      "model": "Kärcher LMO 18-36 Battery Set",
       "slug": "karcher-lmo-18-36-battery-set",
       "sku": "LMO-18-36-BATTERY-SET",
       "category": 5,
@@ -277,6 +289,7 @@
     "pk": 13,
     "fields": {
       "name": "Пінна насадка Kärcher FJ 6",
+      "model": "Kärcher FJ 6",
       "slug": "karcher-fj-6",
       "sku": "FJ-6",
       "category": 6,
@@ -301,6 +314,7 @@
     "pk": 14,
     "fields": {
       "name": "Обертова миюча щітка Kärcher WB 130",
+      "model": "Kärcher WB 130",
       "slug": "karcher-wb-130",
       "sku": "WB-130",
       "category": 6,

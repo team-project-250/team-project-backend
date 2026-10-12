@@ -48,11 +48,33 @@ def test_detail_includes_badges_suitable_for_and_breadcrumbs(client, main_equipm
         "Хімчистки килимового покриття",
         "Хімчистки меблів і салону авто",
     ]
+    # No model set -> the last crumb falls back to the full name.
     assert data["breadcrumbs"] == [
         {"label": "Головна", "url": "/"},
         {"label": "Каталог", "url": "/catalog"},
-        {"label": "Пароочисники", "url": "/catalog?category=steam-cleaners"},
         {"label": "Karcher SC 4 Deluxe", "url": None},
+    ]
+
+
+def test_breadcrumbs_have_three_levels_ending_with_the_model(client, categories):
+    """TP250-76: the site shows "Головна / Каталог / <model>" — no category
+    level and the model rather than the full product name."""
+    equipment = Equipment.objects.create(
+        name="Апарат високого тиску Kärcher HD 6/15",
+        model="Kärcher HD 6/15",
+        slug="karcher-hd-6-15",
+        sku="HD-6-15",
+        category=categories["steam"],
+        price_per_day="700.00",
+    )
+
+    data = client.get(f"/api/equipment/{equipment.slug}/").json()
+
+    assert data["model"] == "Kärcher HD 6/15"
+    assert data["breadcrumbs"] == [
+        {"label": "Головна", "url": "/"},
+        {"label": "Каталог", "url": "/catalog"},
+        {"label": "Kärcher HD 6/15", "url": None},
     ]
 
 

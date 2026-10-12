@@ -31,6 +31,7 @@ def test_seed_demo_matches_the_site_catalog():
     assert Equipment.objects.count() == 14
     assert Equipment.objects.filter(available_cities__slug="lutsk").count() == 14
     assert Review.objects.count() == 4
+    assert Equipment.objects.get(slug="karcher-hd-6-15").model == "Kärcher HD 6/15"
 
     lutsk = City.objects.get(slug="lutsk")
     assert lutsk.pickup_address == "вул. Соборна, 12"

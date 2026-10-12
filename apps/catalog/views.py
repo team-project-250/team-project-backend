@@ -111,7 +111,7 @@ class EquipmentViewSet(viewsets.ReadOnlyModelViewSet):
     lookup_field = "slug"
     pagination_class = EquipmentPagination
     filterset_class = EquipmentFilter
-    search_fields = ("name", "sku", "short_description")
+    search_fields = ("name", "model", "sku", "short_description")
     ordering_fields = ("rating", "price_per_day", "name")
 
     def get_serializer_class(self):
