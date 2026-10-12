@@ -1,0 +1,15 @@
+[
+  {
+    "model": "content.sitesettings",
+    "pk": 1,
+    "fields": {
+      "company_name": "ТОВ «EasyRent»",
+      "bank_name": "АТ КБ «ПриватБанк»",
+      "iban": "UA000000000000000000000000000",
+      "recipient_name": "ТОВ «EasyRent»",
+      "edrpou": "00000000",
+      "transfer_note": "PLACEHOLDER — замінити реальними банківськими реквізитами компанії перед запуском. Оплата за оренду техніки згідно з договором.",
+      "updated_at": "2026-09-01T09:00:00Z"
+    }
+  }
+]

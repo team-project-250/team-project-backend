@@ -8,9 +8,9 @@
       "is_default": true,
       "is_active": true,
       "order": 1,
-      "pickup_address": "м. Луцьк, просп. Волі, 1",
+      "pickup_address": "вул. Соборна, 12",
       "pickup_phone": "+380 (50) 123-45-67",
-      "working_hours": "Пн-Нд: Цілодобово"
+      "working_hours": "Пн-Нд: Цілодобово 24/7"
     }
   },
   {
@@ -22,9 +22,9 @@
       "is_default": false,
       "is_active": true,
       "order": 2,
-      "pickup_address": "м. Львів, вул. Городоцька, 100",
-      "pickup_phone": "+380 (50) 123-45-67",
-      "working_hours": "Пн-Нд: Цілодобово"
+      "pickup_address": "вул. Шевченка, 8",
+      "pickup_phone": "+380 (67) 234-56-78",
+      "working_hours": "Пн-Нд: Цілодобово 24/7"
     }
   },
   {
@@ -36,9 +36,9 @@
       "is_default": false,
       "is_active": true,
       "order": 3,
-      "pickup_address": "м. Київ, вул. Хрещатик, 10",
-      "pickup_phone": "+380 (50) 123-45-67",
-      "working_hours": "Пн-Нд: Цілодобово"
+      "pickup_address": "вул. Хрещатик, 24",
+      "pickup_phone": "+380 (93) 345-67-89",
+      "working_hours": "Пн-Нд: Цілодобово 24/7"
     }
   },
   {
@@ -50,9 +50,9 @@
       "is_default": false,
       "is_active": true,
       "order": 4,
-      "pickup_address": "м. Одеса, вул. Дерибасівська, 5",
-      "pickup_phone": "+380 (50) 123-45-67",
-      "working_hours": "Пн-Нд: Цілодобово"
+      "pickup_address": "вул. Дерибасівська, 5",
+      "pickup_phone": "+380 (66) 456-78-90",
+      "working_hours": "Пн-Нд: Цілодобово 24/7"
     }
   }
 ]

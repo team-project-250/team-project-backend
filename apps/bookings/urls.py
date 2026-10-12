@@ -1,9 +1,27 @@
-"""Bookings API routes. ViewSets are registered here in a later stage."""
+"""Bookings API routes."""
 
-from rest_framework.routers import DefaultRouter
+from django.urls import path
+
+from apps.bookings.views import (
+    BookingCancelView,
+    BookingListCreateView,
+    BookingQuoteView,
+    CallbackRequestCreateView,
+)
 
 app_name = "bookings"
 
-router = DefaultRouter()
-
-urlpatterns = router.urls
+urlpatterns = [
+    path("bookings/", BookingListCreateView.as_view(), name="booking-list-create"),
+    path("bookings/quote/", BookingQuoteView.as_view(), name="booking-quote"),
+    path(
+        "bookings/<str:number>/cancel/",
+        BookingCancelView.as_view(),
+        name="booking-cancel",
+    ),
+    path(
+        "callback-requests/",
+        CallbackRequestCreateView.as_view(),
+        name="callback-request-create",
+    ),
+]
