@@ -6,6 +6,7 @@ from django.core.management import call_command
 
 from apps.bookings.models import Booking
 from apps.catalog.models import Category, Equipment, EquipmentSpec
+from apps.content.models import AboutSection, HeroSection
 from apps.locations.management.commands import seed_demo
 from apps.locations.models import City
 from apps.reviews.models import Review
@@ -34,6 +35,26 @@ def test_seed_demo_matches_the_site_catalog():
     lutsk = City.objects.get(slug="lutsk")
     assert lutsk.pickup_address == "вул. Соборна, 12"
     assert lutsk.working_hours == "Пн-Нд: Цілодобово 24/7"
+
+
+def test_seed_demo_content_matches_the_site():
+    """TP250-72 / TP250-73: hero subtitle and the about block as on the site."""
+    run_seed(skip_images=True)
+
+    assert HeroSection.load().subtitle == (
+        "Професійні мийні пилососи, пароочисники та апарати високого тиску "
+        "без купівлі дорогого обладнання"
+    )
+    about = AboutSection.load()
+    assert about.description.startswith("EasyRent — сервіс оренди")
+    assert [f.text for f in about.features.all()] == [
+        "Плит та витяжок",
+        "Важкодоступних місць та кутів",
+        "Підлоги будь-якого типу (плитка, ламінат, лінолеум)",
+        "Вікон, дзеркал, скляних поверхонь, душових кабін та сантехнік",
+        "Дитячих іграшок (дезінфекція)",
+        "Плитки та міжплиткових швів",
+    ]
 
 
 def test_seed_demo_is_idempotent():
