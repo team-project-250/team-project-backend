@@ -130,12 +130,12 @@ made on the site appears in the admin.
 
 ## Stage 6 — Deploy
 
-- [ ] Backend deployed to [Render](https://render.com) via `render.yaml` (Gunicorn, `python manage.py migrate` on release)
-- [ ] Managed PostgreSQL instance provisioned and migrations applied
+- [x] Backend deployed to [Render](https://render.com) via `render.yaml` (Gunicorn, `python manage.py migrate` on release) — <https://easyrent-rental-api.onrender.com>
+- [x] Managed PostgreSQL instance provisioned and migrations applied
 - [ ] S3-compatible media bucket configured (`AWS_STORAGE_BUCKET_NAME` etc.) and `NUM_PROXIES` set for Render's proxy chain
 - [ ] Frontend deployed to [Vercel](https://vercel.com)
 - [ ] `VITE_API_URL` on the frontend points at the deployed backend
-- [ ] `CORS_ORIGINS` on the backend points at the deployed frontend
+- [x] `CORS_ORIGINS` on the backend points at the deployed frontend (GitHub Pages origin)
 - [ ] Live links added to both READMEs
 - [ ] `develop` merged into `main` and tagged `v1.0.0`
 
