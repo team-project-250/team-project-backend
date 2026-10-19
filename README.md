@@ -8,7 +8,7 @@ The project lives in **two repositories**:
 
 | Repository | What it is | Links |
 | --- | --- | --- |
-| **team-project-backend** (this repo) | Django REST API, admin panel, PostgreSQL | Swagger UI at `/api/docs/` once running locally (not deployed yet) |
+| **team-project-backend** (this repo) | Django REST API, admin panel, PostgreSQL | Live API: <https://easyrent-rental-api.onrender.com> · Swagger UI: <https://easyrent-rental-api.onrender.com/api/docs/> |
 | [**team-project-frontend**](https://github.com/team-project-250/team-project-frontend) | React + TypeScript site | Live demo: <https://team-project-250.github.io/team-project-frontend/> |
 
 ## Project status
@@ -150,8 +150,14 @@ pre-commit install
 
 Generated automatically by drf-spectacular:
 
-- Swagger UI — <http://127.0.0.1:8000/api/docs/>
-- OpenAPI schema — <http://127.0.0.1:8000/api/schema/>
+| | Swagger UI | OpenAPI schema |
+| --- | --- | --- |
+| Deployed (Render) | <https://easyrent-rental-api.onrender.com/api/docs/> | <https://easyrent-rental-api.onrender.com/api/schema/> |
+| Local | <http://127.0.0.1:8000/api/docs/> | <http://127.0.0.1:8000/api/schema/> |
+
+The deployed API base URL — what the frontend sets as `VITE_API_URL` — is
+`https://easyrent-rental-api.onrender.com` (no trailing slash, no `/api`: the
+endpoint paths below already start with `/api/`).
 
 ### Endpoints
 
@@ -304,14 +310,55 @@ Keep the history clean — one logical change per commit.
 
 ## Deployment (Render)
 
-1. Push the repository to GitHub.
-2. In Render, create a **New → Blueprint** and point it at this repository —
-   [`render.yaml`](render.yaml) is picked up automatically.
-3. The blueprint provisions a managed PostgreSQL instance and injects `DATABASE_URL`.
-4. Set `ALLOWED_HOSTS`, `CSRF_TRUSTED_ORIGINS` and `CORS_ORIGINS` in the Render dashboard
-   (`SECRET_KEY` is generated automatically).
-5. Build runs `pip install -r requirements.txt`, `collectstatic` and `migrate`;
-   the service starts with `gunicorn config.wsgi:application`.
+The API is deployed at **<https://easyrent-rental-api.onrender.com>** (free plan —
+the service sleeps after ~15 minutes without requests, so the first request after
+a pause can take up to a minute).
+
+### How it was set up
+
+1. In Render choose **+ New → Blueprint**, select this repository and the
+   **`develop`** branch (`main` does not carry the current code yet).
+   [`render.yaml`](render.yaml) creates the `easyrent-db` PostgreSQL database and the
+   `easyrent-rental-api` web service; the service name becomes the public host.
+2. Fill in the variables Render asks for:
+
+   | Variable | Value |
+   | --- | --- |
+   | `ALLOWED_HOSTS` | `.onrender.com` (or exactly `easyrent-rental-api.onrender.com`) |
+   | `CSRF_TRUSTED_ORIGINS` | `https://*.onrender.com` (or `https://easyrent-rental-api.onrender.com`) |
+   | `CORS_ORIGINS` | `https://team-project-250.github.io` — origin only, no path; add `,http://localhost:5173` to call the deployed API from a local frontend |
+   | `NUM_PROXIES` | `1` |
+   | `AWS_*` | empty until a media bucket exists (never put placeholder values here — a bucket name switches uploads to S3 and then requires the keys) |
+
+   `SECRET_KEY`, `DATABASE_URL`, `DEBUG` and `PYTHON_VERSION` are set by the blueprint.
+3. Every build runs `pip install -r requirements.txt`, `collectstatic` and `migrate`;
+   the service starts with `gunicorn config.wsgi:application`. The Blueprint follows
+   `develop`, so every merge there redeploys the service.
+
+### First-time data and admin user
+
+The free plan has no shell, so run these once from your own machine against the
+database's **External Database URL** (Render dashboard → `easyrent-db` →
+Connections). Keep the URL out of chat, commits and screenshots — it contains the
+database password.
+
+```powershell
+$env:DJANGO_SETTINGS_MODULE="config.settings.production"
+$env:DATABASE_URL="<External Database URL>"
+$env:SECRET_KEY="any-throwaway-value"   # only needed so settings can load
+venv\Scripts\python.exe manage.py createsuperuser
+venv\Scripts\python.exe manage.py seed_demo --skip-images
+```
+
+Run `seed_demo` only on an empty or demo database: it overwrites rows by id.
+
+### Known limitations
+
+- **Media files return 404.** Render's disk is wiped on every deploy and `/media/` is
+  not served in production, so equipment photos need an S3-compatible bucket
+  (`AWS_*` variables) before the API can serve them.
+- Free PostgreSQL instances on Render have a limited lifetime — check Render's
+  current terms before relying on it for long-lived data.
 
 ---
 
