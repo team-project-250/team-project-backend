@@ -13,7 +13,7 @@
 | --- | --- |
 | База API | усе під `/api/`, один router/urlconf на застосунок, `include("apps.<x>.urls")` у `config/urls.py` |
 | Автентифікація | **клієнтських акаунтів немає.** Усі публічні ендпоінти — `AllowAny`. Автентифікація лише для `/admin/` (персонал, session auth). `POST` бронювання/callback — публічний + throttle. |
-| Пагінація | глобально `PageNumberPagination`, `PAGE_SIZE = 12`. Перевизначати на рівні в'юхи: каталог = 8/стор. (UI-2.3.01), малі фіксовані списки (міста, категорії, FAQ) = `pagination_class = None` |
+| Пагінація | глобально `PageNumberPagination`, `PAGE_SIZE = 12`. Перевизначати на рівні в'юхи: каталог = 6/стор. (UI-2.3.01, уточнено в TP250-89), `?page_size=` до 50, малі фіксовані списки (міста, категорії, FAQ) = `pagination_class = None` |
 | Фільтрація | `django-filter`, `FilterSet` на кожен list-ендпоінт |
 | Гроші | `DecimalField(max_digits=8, decimal_places=2)`. Ніколи float. |
 | Дати | дати оренди — `DateField` (без часу). `USE_TZ = True`, `TIME_ZONE = "Europe/Kyiv"` (уже налаштовано) |
@@ -138,7 +138,7 @@ DRF + розбиття налаштувань + PostgreSQL + CORS + drf-spectacu
    - `EquipmentViewSet(ReadOnlyModelViewSet)` — `lookup_field="slug"`, `EquipmentListSerializer` для list / `EquipmentDetailSerializer` для retrieve
    - `EquipmentFilter`: `category` (slug, multi), `city` (slug, multi через `available_cities`), діапазон ціни
    - сортування: `rating` (дефолт `-rating`), `price_per_day` (FR-2.2)
-   - list `PAGE_SIZE = 8` (кастомний клас пагінації)
+   - list `PAGE_SIZE = 6` (кастомний клас пагінації, `?page_size=` до 50)
    - додаткові query-параметри: `?is_popular=true` (головна), `?exclude=<slug>` (карусель «Інша техніка»)
    → `GET /api/categories/`, `GET /api/equipment/`, `GET /api/equipment/{slug}/`
    `feat(catalog): add categories and equipment endpoints with filters and sorting`
