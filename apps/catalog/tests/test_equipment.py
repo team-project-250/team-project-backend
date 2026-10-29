@@ -124,8 +124,9 @@ def test_detail_includes_nested_blocks(client, equipment):
     assert data["available_cities"] == ["lutsk"]
 
 
-def test_pagination_page_size_is_8(client, categories):
-    for i in range(10):
+@pytest.fixture
+def many_equipment(categories):
+    for i in range(55):
         Equipment.objects.create(
             name=f"Item {i}",
             slug=f"item-{i}",
@@ -133,9 +134,24 @@ def test_pagination_page_size_is_8(client, categories):
             category=categories["vacuum"],
             price_per_day="100.00",
         )
+
+
+def test_pagination_page_size_is_6(client, many_equipment):
+    """TP250-89: the catalog grid shows 6 items per page."""
     data = client.get("/api/equipment/").json()
-    assert len(data["results"]) == 8
-    assert data["count"] == 10
+    assert len(data["results"]) == 6
+    assert data["count"] == 55
+    assert "page=2" in data["next"]
+
+
+def test_page_size_query_param(client, many_equipment):
+    data = client.get("/api/equipment/?page_size=20").json()
+    assert len(data["results"]) == 20
+
+
+def test_page_size_query_param_is_capped(client, many_equipment):
+    data = client.get("/api/equipment/?page_size=1000").json()
+    assert len(data["results"]) == 50
 
 
 @pytest.mark.skipif(
