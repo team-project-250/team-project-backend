@@ -204,7 +204,8 @@ See [`docs/BACKEND_ROADMAP.md`](docs/BACKEND_ROADMAP.md) for the full planned AP
 | `DATABASE_URL` | `postgres://postgres:postgres@localhost:5432/easyrent` | PostgreSQL connection string |
 | `CORS_ORIGINS` | `http://localhost:5173` | Comma-separated list of allowed frontend origins |
 | `DJANGO_LOG_LEVEL` | `INFO` | Root logger level; `django.db.backends` is always capped at `WARNING` regardless, to keep SQL query logs out |
-| `AWS_STORAGE_BUCKET_NAME` (+ `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, optional `AWS_S3_ENDPOINT_URL`, `AWS_S3_REGION_NAME`, `AWS_S3_CUSTOM_DOMAIN`) | `easyrent-media` | Production: S3-compatible bucket (AWS S3, Cloudflare R2, …) for uploaded images. Unset, uploads go to local disk, which Render wipes on every deploy |
+| `AWS_STORAGE_BUCKET_NAME` (+ `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, optional `AWS_S3_ENDPOINT_URL`, `AWS_S3_REGION_NAME`, `AWS_S3_CUSTOM_DOMAIN`) | `easyrent-media` | Production: S3-compatible bucket (Backblaze B2, AWS S3, Cloudflare R2, …) for uploaded images. Unset, uploads go to local disk, which Render wipes on every deploy |
+| `AWS_QUERYSTRING_AUTH` (+ optional `AWS_QUERYSTRING_EXPIRE`) | `true` / `86400` | Production: the bucket is private and media URLs are presigned, valid for `AWS_QUERYSTRING_EXPIRE` seconds (default 1 day, max 7 days). Can't be combined with `AWS_S3_CUSTOM_DOMAIN` |
 | `NUM_PROXIES` | `1` | Production: reverse proxies in front of the app. Rate limiting takes the client IP from `X-Forwarded-For` using this; unset, the limits can be bypassed by spoofing the header |
 
 All variables are documented in [`.env.example`](.env.example).
@@ -328,9 +329,10 @@ a pause can take up to a minute).
    | `CSRF_TRUSTED_ORIGINS` | `https://*.onrender.com` (or `https://easyrent-rental-api.onrender.com`) |
    | `CORS_ORIGINS` | `https://team-project-250.github.io` — origin only, no path; add `,http://localhost:5173` to call the deployed API from a local frontend |
    | `NUM_PROXIES` | `1` |
-   | `AWS_*` | empty until a media bucket exists (never put placeholder values here — a bucket name switches uploads to S3 and then requires the keys) |
+   | `AWS_*` | see [Media storage](#media-storage) — never put placeholder values here: a bucket name switches uploads to S3 and then requires the keys |
 
-   `SECRET_KEY`, `DATABASE_URL`, `DEBUG` and `PYTHON_VERSION` are set by the blueprint.
+   `SECRET_KEY`, `DATABASE_URL`, `DEBUG`, `PYTHON_VERSION` and `AWS_QUERYSTRING_AUTH`
+   are set by the blueprint.
 3. Every build runs `pip install -r requirements.txt`, `collectstatic` and `migrate`;
    the service starts with `gunicorn config.wsgi:application`. The Blueprint follows
    `develop`, so every merge there redeploys the service.
@@ -352,11 +354,31 @@ venv\Scripts\python.exe manage.py seed_demo --skip-images
 
 Run `seed_demo` only on an empty or demo database: it overwrites rows by id.
 
+### Media storage
+
+Render's disk is wiped on every deploy and `/media/` is not served in production, so
+uploaded images live in a **private Backblaze B2 bucket** (S3-compatible, free tier,
+no card needed for a private bucket). The API returns presigned URLs, so the bucket
+itself never has to be public.
+
+1. Backblaze → **Buckets → Create a Bucket**: files **Private**, encryption and
+   Object Lock off. Note the bucket's **Endpoint** (e.g.
+   `s3.us-west-004.backblazeb2.com`; the region is `us-west-004`).
+2. **Application Keys → Add a New Application Key**: access to **this bucket only**,
+   **Read and Write**. Never use the master key.
+3. On Render set `AWS_STORAGE_BUCKET_NAME`, `AWS_ACCESS_KEY_ID` (keyID),
+   `AWS_SECRET_ACCESS_KEY` (applicationKey), `AWS_S3_ENDPOINT_URL`
+   (`https://` + endpoint) and `AWS_S3_REGION_NAME`. Leave `AWS_S3_CUSTOM_DOMAIN`
+   unset.
+4. Upload the demo photos once from your machine: same variables as in
+   [First-time data](#first-time-data-and-admin-user) plus the `AWS_*` ones (and
+   `AWS_QUERYSTRING_AUTH=true`), then run `seed_demo` **without** `--skip-images`.
+   It only uploads the images that are missing from the bucket.
+
 ### Known limitations
 
-- **Media files return 404.** Render's disk is wiped on every deploy and `/media/` is
-  not served in production, so equipment photos need an S3-compatible bucket
-  (`AWS_*` variables) before the API can serve them.
+- Media URLs expire after `AWS_QUERYSTRING_EXPIRE` (1 day by default); a page left
+  open longer than that needs a reload to show its images again.
 - Free PostgreSQL instances on Render have a limited lifetime — check Render's
   current terms before relying on it for long-lived data.
 
