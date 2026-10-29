@@ -1,5 +1,7 @@
 """Production settings — used on Render."""
 
+from django.core.exceptions import ImproperlyConfigured
+
 from .base import *
 from .base import env
 
@@ -36,7 +38,20 @@ if AWS_STORAGE_BUCKET_NAME:
     AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME", default=None)
     # Public host for media URLs, e.g. a CDN or the bucket's public domain.
     AWS_S3_CUSTOM_DOMAIN = env("AWS_S3_CUSTOM_DOMAIN", default=None)
+    # Private bucket: media URLs are presigned and expire after
+    # AWS_QUERYSTRING_EXPIRE seconds (SigV4 allows at most 7 days). The API
+    # hands out fresh URLs on every request, so the expiry only matters for
+    # a page left open longer than that.
     AWS_QUERYSTRING_AUTH = env.bool("AWS_QUERYSTRING_AUTH", default=False)
+    AWS_QUERYSTRING_EXPIRE = env.int("AWS_QUERYSTRING_EXPIRE", default=60 * 60 * 24)
+    if AWS_QUERYSTRING_AUTH and AWS_S3_CUSTOM_DOMAIN:
+        # django-storages only signs custom-domain URLs through CloudFront;
+        # otherwise it silently returns unsigned URLs that a private bucket
+        # answers with 403.
+        raise ImproperlyConfigured(
+            "AWS_S3_CUSTOM_DOMAIN can't be combined with AWS_QUERYSTRING_AUTH; "
+            "unset the custom domain for a private bucket."
+        )
     AWS_S3_FILE_OVERWRITE = False
     DEFAULT_FILE_STORAGE_BACKEND = "storages.backends.s3.S3Storage"
 else:
