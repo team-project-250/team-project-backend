@@ -14,7 +14,7 @@
       "rating": "4.80",
       "is_popular": true,
       "is_active": true,
-      "main_image": "equipment/hd-6-15.png",
+      "main_image": "equipment/hd-6-15.webp",
       "available_cities": [
         1,
         2,
@@ -38,7 +38,7 @@
       "rating": "4.90",
       "is_popular": true,
       "is_active": true,
-      "main_image": "equipment/hd-10-25-4-s.png",
+      "main_image": "equipment/hd-10-25-4-s.webp",
       "available_cities": [
         1,
         3
@@ -61,7 +61,7 @@
       "rating": "4.70",
       "is_popular": true,
       "is_active": true,
-      "main_image": "equipment/nt-35-1-ap.png",
+      "main_image": "equipment/nt-35-1-ap.webp",
       "available_cities": [
         1,
         2,
@@ -85,7 +85,7 @@
       "rating": "4.80",
       "is_popular": true,
       "is_active": true,
-      "main_image": "equipment/nt-65-2-eco.png",
+      "main_image": "equipment/nt-65-2-eco.webp",
       "available_cities": [
         1,
         3
@@ -108,7 +108,7 @@
       "rating": "4.90",
       "is_popular": true,
       "is_active": true,
-      "main_image": "equipment/puzzi-10-1.png",
+      "main_image": "equipment/puzzi-10-1.webp",
       "available_cities": [
         1,
         2,
@@ -132,7 +132,7 @@
       "rating": "4.80",
       "is_popular": true,
       "is_active": true,
-      "main_image": "equipment/puzzi-8-1-c.png",
+      "main_image": "equipment/puzzi-8-1-c.webp",
       "available_cities": [
         1,
         3
@@ -155,7 +155,7 @@
       "rating": "4.90",
       "is_popular": true,
       "is_active": true,
-      "main_image": "equipment/bd-50-60-c-ep-classic.png",
+      "main_image": "equipment/bd-50-60-c-ep-classic.webp",
       "available_cities": [
         1,
         3
@@ -178,7 +178,7 @@
       "rating": "4.70",
       "is_popular": true,
       "is_active": true,
-      "main_image": "equipment/bd-43-35-c-ep.png",
+      "main_image": "equipment/bd-43-35-c-ep.webp",
       "available_cities": [
         1,
         2,
@@ -202,7 +202,7 @@
       "rating": "4.80",
       "is_popular": true,
       "is_active": true,
-      "main_image": "equipment/sg-4-4.png",
+      "main_image": "equipment/sg-4-4.webp",
       "available_cities": [
         1,
         2,
@@ -226,7 +226,7 @@
       "rating": "4.60",
       "is_popular": true,
       "is_active": true,
-      "main_image": "equipment/sc-4-easyfix.png",
+      "main_image": "equipment/sc-4-easyfix.webp",
       "available_cities": [
         1,
         3
@@ -249,7 +249,7 @@
       "rating": "4.70",
       "is_popular": true,
       "is_active": true,
-      "main_image": "equipment/lmo-18-33.png",
+      "main_image": "equipment/lmo-18-33.webp",
       "available_cities": [
         1,
         2,
@@ -274,7 +274,7 @@
       "rating": "4.80",
       "is_popular": true,
       "is_active": true,
-      "main_image": "equipment/lmo-18-36.png",
+      "main_image": "equipment/lmo-18-36.webp",
       "available_cities": [
         1,
         2,
@@ -299,7 +299,7 @@
       "rating": "4.60",
       "is_popular": true,
       "is_active": true,
-      "main_image": "equipment/fj-6.png",
+      "main_image": "equipment/fj-6.webp",
       "available_cities": [
         1,
         2,
@@ -324,7 +324,7 @@
       "rating": "4.70",
       "is_popular": true,
       "is_active": true,
-      "main_image": "equipment/wb-130.png",
+      "main_image": "equipment/wb-130.webp",
       "available_cities": [
         1,
         2,
@@ -339,7 +339,7 @@
     "pk": 1,
     "fields": {
       "equipment": 1,
-      "image": "equipment/gallery/hd-6-15-2.png",
+      "image": "equipment/gallery/hd-6-15-2.webp",
       "order": 1
     }
   },
@@ -348,7 +348,7 @@
     "pk": 2,
     "fields": {
       "equipment": 1,
-      "image": "equipment/gallery/hd-6-15-3.png",
+      "image": "equipment/gallery/hd-6-15-3.webp",
       "order": 2
     }
   },
@@ -479,7 +479,7 @@
     "pk": 3,
     "fields": {
       "equipment": 2,
-      "image": "equipment/gallery/hd-10-25-4-s-3.png",
+      "image": "equipment/gallery/hd-10-25-4-s-3.webp",
       "order": 1
     }
   },
@@ -628,7 +628,7 @@
     "pk": 4,
     "fields": {
       "equipment": 3,
-      "image": "equipment/gallery/nt-35-1-ap-2.png",
+      "image": "equipment/gallery/nt-35-1-ap-2.webp",
       "order": 1
     }
   },
@@ -758,7 +758,7 @@
     "pk": 5,
     "fields": {
       "equipment": 4,
-      "image": "equipment/gallery/nt-65-2-eco-2.png",
+      "image": "equipment/gallery/nt-65-2-eco-2.webp",
       "order": 1
     }
   },
@@ -767,7 +767,7 @@
     "pk": 6,
     "fields": {
       "equipment": 4,
-      "image": "equipment/gallery/nt-65-2-eco-3.png",
+      "image": "equipment/gallery/nt-65-2-eco-3.webp",
       "order": 2
     }
   },
@@ -897,7 +897,7 @@
     "pk": 7,
     "fields": {
       "equipment": 5,
-      "image": "equipment/gallery/puzzi-10-1-3.png",
+      "image": "equipment/gallery/puzzi-10-1-3.webp",
       "order": 1
     }
   },
@@ -1027,7 +1027,7 @@
     "pk": 8,
     "fields": {
       "equipment": 6,
-      "image": "equipment/gallery/puzzi-8-1-c-3.png",
+      "image": "equipment/gallery/puzzi-8-1-c-3.webp",
       "order": 1
     }
   },
@@ -1148,7 +1148,7 @@
     "pk": 9,
     "fields": {
       "equipment": 7,
-      "image": "equipment/gallery/bd-50-60-c-ep-classic-3.png",
+      "image": "equipment/gallery/bd-50-60-c-ep-classic-3.webp",
       "order": 1
     }
   },
@@ -1287,7 +1287,7 @@
     "pk": 10,
     "fields": {
       "equipment": 8,
-      "image": "equipment/gallery/bd-43-35-c-ep-3.png",
+      "image": "equipment/gallery/bd-43-35-c-ep-3.webp",
       "order": 1
     }
   },
@@ -1426,7 +1426,7 @@
     "pk": 11,
     "fields": {
       "equipment": 9,
-      "image": "equipment/gallery/sg-4-4-3.png",
+      "image": "equipment/gallery/sg-4-4-3.webp",
       "order": 1
     }
   },
@@ -1556,7 +1556,7 @@
     "pk": 12,
     "fields": {
       "equipment": 10,
-      "image": "equipment/gallery/sc-4-easyfix-3.png",
+      "image": "equipment/gallery/sc-4-easyfix-3.webp",
       "order": 1
     }
   },
@@ -1695,7 +1695,7 @@
     "pk": 13,
     "fields": {
       "equipment": 11,
-      "image": "equipment/gallery/lmo-18-33-battery-set-3.png",
+      "image": "equipment/gallery/lmo-18-33-battery-set-3.webp",
       "order": 1
     }
   },
@@ -1825,7 +1825,7 @@
     "pk": 14,
     "fields": {
       "equipment": 12,
-      "image": "equipment/gallery/lmo-18-36-battery-set-3.png",
+      "image": "equipment/gallery/lmo-18-36-battery-set-3.webp",
       "order": 1
     }
   },
@@ -1955,7 +1955,7 @@
     "pk": 15,
     "fields": {
       "equipment": 13,
-      "image": "equipment/gallery/fj-6-3.png",
+      "image": "equipment/gallery/fj-6-3.webp",
       "order": 1
     }
   },
@@ -2057,7 +2057,7 @@
     "pk": 16,
     "fields": {
       "equipment": 14,
-      "image": "equipment/gallery/wb-130-2.png",
+      "image": "equipment/gallery/wb-130-2.webp",
       "order": 1
     }
   },
@@ -2066,7 +2066,7 @@
     "pk": 17,
     "fields": {
       "equipment": 14,
-      "image": "equipment/gallery/wb-130-3.png",
+      "image": "equipment/gallery/wb-130-3.webp",
       "order": 2
     }
   },
