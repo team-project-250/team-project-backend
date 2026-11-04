@@ -124,8 +124,8 @@ python manage.py seed_demo
 
 Loads the same catalog (14 products in 7 categories), cities, pickup points and
 reviews the site shows, plus the home/product-page content and three demo
-bookings, and downloads the product photos from the live site into `media/`.
-Safe to run repeatedly.
+bookings, and downloads the product photos from the live site into `media/`,
+stored as WebP (at most 1200 px; see `config/images.py`). Safe to run repeatedly.
 
 - `--skip-images` — don't download photos (e.g. offline)
 - `--reset` — also drop reviews left over from older demo data
@@ -252,6 +252,7 @@ team-project-backend/
 | `python manage.py runserver` | Run the dev server |
 | `python manage.py makemigrations` | Create migrations from model changes |
 | `python manage.py migrate` | Apply migrations |
+| `python manage.py optimize_media [--dry-run]` | Convert stored images to WebP (at most 1200 px) and repoint the database at them; originals are kept |
 | `pytest` | Run the test suite |
 | `pytest --cov --cov-report=term-missing` | Tests with a coverage report |
 | `ruff check .` | Lint |
@@ -375,10 +376,19 @@ itself never has to be public.
    `AWS_QUERYSTRING_AUTH=true`), then run `seed_demo` **without** `--skip-images`.
    It only uploads the images that are missing from the bucket.
 
+Images are stored as WebP of at most 1200 px: the original PNGs (37 MB for the
+demo catalog) used up B2's free daily download allowance in a few dozen page
+views. To convert images that are already in the bucket, run
+`optimize_media --dry-run` and then `optimize_media` with the same variables.
+
 ### Known limitations
 
 - Media URLs expire after `AWS_QUERYSTRING_EXPIRE` (1 day by default); a page left
   open longer than that needs a reload to show its images again.
+- B2's free tier caps downloads per day; once a cap is hit, images stop loading
+  until it resets at 00:00 UTC. Usage and caps are under **Caps & Alerts**.
+- Images uploaded through the admin are stored as uploaded; run
+  `optimize_media` after adding large ones.
 - Free PostgreSQL instances on Render have a limited lifetime — check Render's
   current terms before relying on it for long-lived data.
 

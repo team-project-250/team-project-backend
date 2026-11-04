@@ -5,6 +5,7 @@ from here and override what they need. The active module is chosen by
 ``DJANGO_SETTINGS_MODULE`` (see ``manage.py`` / ``.env``).
 """
 
+import mimetypes
 from pathlib import Path
 
 import environ
@@ -127,6 +128,11 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+# Media is stored as WebP (see config/images.py). Python only knows the
+# type on some platforms; without it S3 uploads get
+# application/octet-stream instead of image/webp.
+mimetypes.add_type("image/webp", ".webp")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 

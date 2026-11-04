@@ -3,6 +3,7 @@ import urllib.error
 
 import pytest
 from django.core.management import call_command
+from PIL import Image
 
 from apps.bookings.models import Booking
 from apps.catalog.models import Category, Equipment, EquipmentSpec
@@ -90,30 +91,55 @@ def test_seed_demo_reset_drops_old_reviews():
     assert not Review.objects.filter(pk=99).exists()
 
 
-def test_seed_demo_downloads_missing_images(monkeypatch, tmp_path):
+class FakeResponse(io.BytesIO):
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        return False
+
+
+def png_bytes():
+    out = io.BytesIO()
+    Image.new("RGB", (2000, 1000), "yellow").save(out, "PNG")
+    return out.getvalue()
+
+
+def test_seed_demo_downloads_missing_images_as_webp(monkeypatch, tmp_path):
     requested = []
-
-    class FakeResponse(io.BytesIO):
-        def __enter__(self):
-            return self
-
-        def __exit__(self, *exc):
-            return False
 
     def fake_urlopen(url, timeout):
         requested.append(url)
-        return FakeResponse(b"image-bytes")
+        return FakeResponse(png_bytes())
 
     monkeypatch.setattr(seed_demo.urllib.request, "urlopen", fake_urlopen)
     run_seed(assets_url="https://assets.example/img/")
 
     assert "https://assets.example/img/equipment/hd-6-15.png" in requested
     assert "https://assets.example/img/avatar-1.png" in requested
-    assert (tmp_path / "equipment" / "hd-6-15.png").read_bytes() == b"image-bytes"
+    assert Equipment.objects.get(slug="karcher-hd-6-15").main_image.name == (
+        "equipment/hd-6-15.webp"
+    )
+    with Image.open(tmp_path / "equipment" / "hd-6-15.webp") as image:
+        assert image.format == "WEBP"
+        assert image.size == (1200, 600)
 
     requested.clear()
     run_seed(assets_url="https://assets.example/img/")
     assert requested == []
+
+
+def test_seed_demo_skips_a_download_that_is_not_an_image(monkeypatch, tmp_path):
+    monkeypatch.setattr(
+        seed_demo.urllib.request,
+        "urlopen",
+        lambda url, timeout: FakeResponse(b"<html>404</html>"),
+    )
+    out = io.StringIO()
+    call_command("seed_demo", stdout=out)
+
+    assert "Not an image, skipped" in out.getvalue()
+    assert not (tmp_path / "equipment" / "hd-6-15.webp").exists()
 
 
 def test_seed_demo_survives_being_offline(monkeypatch):

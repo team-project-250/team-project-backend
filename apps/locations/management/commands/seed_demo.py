@@ -17,6 +17,7 @@ from django.core.management import call_command
 from django.core.management.base import BaseCommand
 from django.db import transaction
 from django.utils import timezone
+from PIL import UnidentifiedImageError
 
 from apps.bookings.models import Booking
 from apps.bookings.services import create_booking
@@ -31,6 +32,7 @@ from apps.catalog.models import (
 )
 from apps.locations.models import City
 from apps.reviews.models import Review
+from config.images import to_webp
 
 FIXTURES = [
     "cities",
@@ -62,7 +64,9 @@ EQUIPMENT_CHILD_MODELS = (
 
 # The images live in the frontend repo; seed_demo downloads them from the
 # deployed site into MEDIA storage so the API serves the same pictures.
+# The site has them as PNG; they're stored as WebP (see config/images.py).
 DEMO_ASSETS_URL = "https://team-project-250.github.io/team-project-frontend/img/images/"
+DEMO_ASSETS_SUFFIX = ".png"
 DOWNLOAD_TIMEOUT_SECONDS = 15
 
 # Recognisable, obviously-fake phone — not a real person's number — used so
@@ -172,12 +176,13 @@ class Command(BaseCommand):
             )
 
     def _download_images(self, assets_url):
-        """Download every demo image that isn't in MEDIA storage yet.
+        """Download every demo image that isn't in MEDIA storage yet and
+        store it as WebP.
 
         Args:
             assets_url: Base URL; equipment photos are fetched from
-                ``<assets_url>equipment/<file>``, avatars from
-                ``<assets_url><file>``.
+                ``<assets_url>equipment/<file>.png``, avatars from
+                ``<assets_url><file>.png``.
         """
         equipment_images = list(
             Equipment.objects.exclude(main_image="").values_list(
@@ -186,20 +191,23 @@ class Command(BaseCommand):
         ) + list(EquipmentImage.objects.values_list("image", flat=True))
         avatars = Review.objects.exclude(avatar="").values_list("avatar", flat=True)
 
-        wanted = [(name, "equipment/" + Path(name).name) for name in equipment_images]
-        wanted += [(name, Path(name).name) for name in avatars]
+        def source(name):
+            return Path(name).with_suffix(DEMO_ASSETS_SUFFIX).name
+
+        wanted = [(name, "equipment/" + source(name)) for name in equipment_images]
+        wanted += [(name, source(name)) for name in avatars]
         missing = [(n, src) for n, src in wanted if not default_storage.exists(n)]
         if not missing:
             return
 
         self.stdout.write(f"Downloading {len(missing)} demo images from {assets_url}")
-        for name, source in missing:
-            url = assets_url.rstrip("/") + "/" + source
+        for name, source_path in missing:
+            url = assets_url.rstrip("/") + "/" + source_path
             try:
                 with urllib.request.urlopen(
                     url, timeout=DOWNLOAD_TIMEOUT_SECONDS
                 ) as response:
-                    default_storage.save(name, ContentFile(response.read()))
+                    data = response.read()
             except (urllib.error.URLError, TimeoutError) as exc:
                 self.stdout.write(
                     self.style.WARNING(
@@ -208,3 +216,7 @@ class Command(BaseCommand):
                     )
                 )
                 return
+            try:
+                default_storage.save(name, ContentFile(to_webp(data)))
+            except UnidentifiedImageError:
+                self.stdout.write(self.style.WARNING(f"Not an image, skipped: {url}"))
